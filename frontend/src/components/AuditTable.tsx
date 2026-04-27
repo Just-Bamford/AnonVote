@@ -25,37 +25,75 @@ export default function AuditTable({
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-          <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">
+        <div className="card p-4 text-center">
+          <p className="text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wide mb-1 font-mono">
             Tokens Issued
           </p>
-          <p className="text-white text-2xl font-bold">{tokensIssued}</p>
+          <p className="text-gray-900 dark:text-white text-2xl font-bold">
+            {tokensIssued}
+          </p>
         </div>
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-center">
-          <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">
+        <div className="card p-4 text-center">
+          <p className="text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wide mb-1 font-mono">
             Votes Cast
           </p>
-          <p className="text-white text-2xl font-bold">{votesCast}</p>
+          <p className="text-gray-900 dark:text-white text-2xl font-bold">
+            {votesCast}
+          </p>
         </div>
       </div>
 
       {!isConsistent && (
-        <div className="bg-yellow-900/40 border border-yellow-700 text-yellow-300 rounded-lg px-4 py-3 text-sm">
-          ⚠️ Inconsistency detected: tokens issued ({tokensIssued}) does not
-          equal votes cast ({votesCast}).
+        <div className="bg-yellow-100 dark:bg-yellow-900/30 border-l-4 border-yellow-500 rounded-lg px-4 py-3 text-sm">
+          <div className="flex items-center gap-2">
+            <svg
+              className="w-4 h-4 text-yellow-600 dark:text-yellow-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span className="text-yellow-800 dark:text-yellow-200">
+              Inconsistency detected: tokens issued ({tokensIssued}) does not
+              equal votes cast ({votesCast}).
+            </span>
+          </div>
         </div>
       )}
 
       {isConsistent && (
-        <div className="bg-green-900/30 border border-green-800 text-green-400 rounded-lg px-4 py-3 text-sm">
-          ✓ Audit consistent: all issued tokens accounted for.
+        <div className="bg-green-100 dark:bg-green-900/30 border-l-4 border-green-500 rounded-lg px-4 py-3 text-sm">
+          <div className="flex items-center gap-2">
+            <svg
+              className="w-4 h-4 text-green-600 dark:text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            <span className="text-green-800 dark:text-green-200">
+              Audit consistent: all issued tokens accounted for.
+            </span>
+          </div>
         </div>
       )}
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-400 border-b border-gray-800">
+            <tr className="text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
               <th className="text-left py-2 pr-4">Event</th>
               <th className="text-left py-2 pr-4">Time</th>
               <th className="text-left py-2">Stellar TX</th>
@@ -65,12 +103,12 @@ export default function AuditTable({
             {events.map((ev, i) => (
               <tr
                 key={i}
-                className="border-b border-gray-800/50 hover:bg-gray-900/50"
+                className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50"
               >
-                <td className="py-2 pr-4 text-gray-300">
+                <td className="py-2 pr-4 text-gray-700 dark:text-gray-300">
                   {ev.eventType.replace(/_/g, " ")}
                 </td>
-                <td className="py-2 pr-4 text-gray-400 text-xs">
+                <td className="py-2 pr-4 text-gray-600 dark:text-gray-400 text-xs">
                   {new Date(ev.createdAt).toLocaleString()}
                 </td>
                 <td className="py-2">
@@ -79,12 +117,14 @@ export default function AuditTable({
                       href={`${explorerBase}/${ev.stellarTxId}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-indigo-400 hover:text-indigo-300 font-mono text-xs truncate block max-w-[120px]"
+                      className="text-primary hover:text-primary-hover font-mono text-xs truncate block max-w-[120px]"
                     >
                       {ev.stellarTxId.slice(0, 12)}...
                     </a>
                   ) : (
-                    <span className="text-gray-600 text-xs">—</span>
+                    <span className="text-gray-500 dark:text-gray-600 text-xs">
+                      —
+                    </span>
                   )}
                 </td>
               </tr>

@@ -45,98 +45,165 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-grid-overlay glow-indigo glow-emerald">
       <Navbar />
       <div className="flex items-center justify-center px-4 py-16">
         <div className="w-full max-w-md">
-          <div className="bg-gray-900 rounded-2xl p-8 shadow-xl border border-gray-800">
-            <h1 className="text-2xl font-bold mb-2">
+          <div className="card p-8">
+            <div className="section-eyebrow">New Organization</div>
+            <h1 className="text-3xl font-space-grotesk font-bold mb-2">
               Register your organization
             </h1>
-            <p className="text-gray-400 text-sm mb-6">
+            <p className="text-gray-600 dark:text-gray-300 text-sm mb-6">
               Create an account to start running anonymous votes.
             </p>
 
             {errors.general && (
-              <div className="bg-red-900/40 border border-red-700 text-red-300 rounded-lg px-4 py-3 mb-4 text-sm">
-                {errors.general}
+              <div className="error-message">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{errors.general}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Organization Name
                 </label>
-                <input
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className={`w-full bg-gray-800 border ${errors.name ? "border-red-500" : "border-gray-700"} rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
-                  placeholder="Acme University"
-                />
+                <div className="input-with-icon">
+                  <svg
+                    className="input-icon w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className={`input-field ${errors.name ? "border-red-500" : ""}`}
+                    placeholder="Acme University"
+                  />
+                </div>
                 {errors.name && (
-                  <p className="text-red-400 text-xs mt-1">{errors.name}</p>
+                  <p className="text-red-500 text-xs mt-1">{errors.name}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Contact Email
                 </label>
-                <input
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className={`w-full bg-gray-800 border ${errors.email ? "border-red-500" : "border-gray-700"} rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
-                  placeholder="admin@acme.edu"
-                />
+                <div className="input-with-icon">
+                  <svg
+                    className="input-icon w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
+                    className={`input-field ${errors.email ? "border-red-500" : ""}`}
+                    placeholder="admin@acme.edu"
+                  />
+                </div>
                 {errors.email && (
-                  <p className="text-red-400 text-xs mt-1">{errors.email}</p>
+                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Password
                 </label>
-                <div className="relative">
+                <div className="input-with-icon">
+                  <svg
+                    className="input-icon w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
                   <input
                     type={showPassword ? "text" : "password"}
                     value={form.password}
                     onChange={(e) =>
                       setForm({ ...form, password: e.target.value })
                     }
-                    className={`w-full bg-gray-800 border ${errors.password ? "border-red-500" : "border-gray-700"} rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 pr-12`}
+                    className={`input-field ${errors.password ? "border-red-500" : ""}`}
                     placeholder="Min. 8 characters"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-xs"
                   >
                     {showPassword ? "Hide" : "Show"}
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="text-red-400 text-xs mt-1">{errors.password}</p>
+                  <p className="text-red-500 text-xs mt-1">{errors.password}</p>
                 )}
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg transition mt-2"
+                className="w-full btn-primary"
               >
-                {loading ? "Registering..." : "Create Account"}
+                {loading ? (
+                  <span className="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                ) : (
+                  "Create Account"
+                )}
               </button>
             </form>
 
-            <p className="text-center text-gray-400 text-sm mt-6">
+            <p className="text-center text-gray-600 dark:text-gray-400 text-sm mt-6">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-indigo-400 hover:text-indigo-300"
+                className="text-primary hover:text-primary-hover font-medium"
               >
                 Sign in
               </Link>

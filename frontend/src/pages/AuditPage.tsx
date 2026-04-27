@@ -26,37 +26,41 @@ export default function AuditPage() {
   }, [ballotId]);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-grid-overlay glow-indigo glow-emerald">
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10">
         <div className="flex items-center justify-between mb-2">
-          <h1 className="text-3xl font-bold">Audit Log</h1>
+          <div>
+            <div className="section-eyebrow">Audit Log</div>
+            <h1 className="text-3xl font-space-grotesk font-bold">Audit Log</h1>
+          </div>
           {ballotId && (
             <Link
               to={`/results/${ballotId}`}
-              className="text-indigo-400 hover:text-indigo-300 text-sm"
+              className="text-primary hover:text-primary-hover text-sm font-medium"
             >
               ← Results
             </Link>
           )}
         </div>
-        {ballot && <p className="text-gray-400 mb-8">{ballot.topic}</p>}
+        {ballot && (
+          <p className="text-gray-600 dark:text-gray-300 mb-8">
+            {ballot.topic}
+          </p>
+        )}
 
         {loading ? (
           <div className="space-y-4">
             {[1, 2].map((i) => (
-              <div
-                key={i}
-                className="bg-gray-900 rounded-xl h-20 animate-pulse"
-              />
+              <div key={i} className="card rounded-xl h-20 animate-pulse" />
             ))}
           </div>
         ) : error ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center">
-            <p className="text-gray-400">{error}</p>
+          <div className="card p-8 text-center">
+            <p className="text-gray-600 dark:text-gray-400">{error}</p>
           </div>
         ) : audit ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+          <div className="card p-6">
             <AuditTable
               events={audit.events}
               tokensIssued={audit.tokensIssued}

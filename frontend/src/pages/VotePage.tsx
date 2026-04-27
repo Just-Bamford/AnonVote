@@ -52,14 +52,14 @@ export default function VotePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-grid-overlay glow-indigo glow-emerald">
       <Navbar />
       <div className="max-w-lg mx-auto px-4 sm:px-6 py-10">
         {success ? (
-          <div className="bg-gray-900 border border-green-800 rounded-2xl p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-green-900/40 rounded-full flex items-center justify-center mx-auto">
+          <div className="card p-8 text-center space-y-4">
+            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
               <svg
-                className="w-8 h-8 text-green-400"
+                className="w-8 h-8 text-green-600 dark:text-green-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -72,63 +72,92 @@ export default function VotePage() {
                 />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-green-400">
+            <h2 className="text-2xl font-space-grotesk font-bold text-green-600 dark:text-green-400">
               Vote Submitted
             </h2>
-            <p className="text-gray-400">
+            <p className="text-gray-600 dark:text-gray-300">
               Your anonymous vote has been recorded on the Stellar blockchain.
             </p>
-            <Link
-              to={`/results/${ballotId}`}
-              className="block bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-semibold transition"
-            >
-              View Results →
+            <Link to={`/results/${ballotId}`} className="block btn-primary">
+              View Results
             </Link>
           </div>
         ) : ballotError ? (
-          <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8 text-center">
-            <p className="text-gray-400">{ballotError}</p>
+          <div className="card p-8 text-center">
+            <p className="text-gray-600 dark:text-gray-400">{ballotError}</p>
           </div>
         ) : !ballot ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 animate-pulse h-64" />
+          <div className="card p-8 animate-pulse h-64" />
         ) : (
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Cast Your Vote</h1>
-              <p className="text-gray-400">
+              <h1 className="text-3xl font-space-grotesk font-bold mb-2">
+                Cast Your Vote
+              </h1>
+              <p className="text-gray-600 dark:text-gray-300">
                 Your vote is anonymous and encrypted.
               </p>
             </div>
 
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-              <p className="text-gray-400 text-xs uppercase tracking-wide mb-1">
+            <div className="card p-4">
+              <p className="text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wide mb-1 font-mono">
                 Ballot
               </p>
-              <p className="text-white font-semibold">{ballot.topic}</p>
+              <p className="text-gray-900 dark:text-white font-semibold">
+                {ballot.topic}
+              </p>
             </div>
 
             {error && (
-              <div className="bg-red-900/40 border border-red-700 text-red-300 rounded-lg px-4 py-3 text-sm">
-                {error}
+              <div className="error-message">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Your Voting Token
                 </label>
-                <input
-                  type="text"
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="Paste your token here"
-                />
+                <div className="input-with-icon">
+                  <svg
+                    className="input-icon w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                    className="input-field font-mono text-sm"
+                    placeholder="Paste your token here"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Select an Option
                 </label>
                 <OptionSelector
@@ -141,9 +170,17 @@ export default function VotePage() {
               <button
                 type="submit"
                 disabled={!canSubmit || loading}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition"
+                className="w-full btn-primary"
               >
-                {loading ? "Submitting..." : "Submit Vote"}
+                {loading ? (
+                  <span className="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                ) : (
+                  "Cast Vote — This cannot be undone"
+                )}
               </button>
             </form>
           </div>

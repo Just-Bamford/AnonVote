@@ -1,6 +1,7 @@
 {
   "name": "anon-vote-frontend",
   "version": "1.0.0",
+  "type": "module",
   "description": "AnonVote frontend",
   "scripts": {
     "dev": "vite",

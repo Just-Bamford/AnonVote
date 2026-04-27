@@ -17,6 +17,18 @@ export function useAuth(): AuthState & { logout: () => Promise<void> } {
   });
 
   useEffect(() => {
+    // Don't check auth on login/register pages
+    const currentPath = window.location.pathname;
+    if (currentPath === "/login" || currentPath === "/register") {
+      setState({
+        isAuthenticated: false,
+        orgName: null,
+        orgId: null,
+        loading: false,
+      });
+      return;
+    }
+
     getMe()
       .then((res) => {
         setState({

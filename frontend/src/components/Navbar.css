@@ -1,0 +1,45 @@
+/* Navbar Component Styles */
+.navbar {
+  background-color: var(--color-card-bg);
+  border-bottom: 1px solid var(--color-card-border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-card);
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.navbar-network {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background-color: var(--color-input-bg);
+  color: var(--color-muted);
+  border: 1px solid var(--color-input-border);
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  color: var(--color-text);
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-card-border);
+}

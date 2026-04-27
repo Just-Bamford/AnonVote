@@ -8,7 +8,7 @@ import type {
 } from "../types";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "/api",
+  baseURL: "/api",
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
@@ -17,6 +17,7 @@ const api = axios.create({
 api.interceptors.response.use(
   (res) => res,
   (err) => {
+    // Only redirect on 401 if there's a response (not a network error)
     if (
       err.response?.status === 401 &&
       !window.location.pathname.includes("/login")

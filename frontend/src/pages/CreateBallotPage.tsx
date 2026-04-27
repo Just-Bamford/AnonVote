@@ -65,56 +65,90 @@ export default function CreateBallotPage() {
   const minDeadline = new Date(Date.now() + 60_000).toISOString().slice(0, 16);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-grid-overlay glow-indigo glow-emerald">
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10">
-        <h1 className="text-3xl font-bold mb-2">Create Ballot</h1>
-        <p className="text-gray-400 mb-8">
+        <div className="section-eyebrow mb-2">Create Ballot</div>
+        <h1 className="text-3xl font-space-grotesk font-bold mb-2">
+          Create Ballot
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 mb-8">
           Define the topic, options, deadline, and eligible voters.
         </p>
 
         {errors.general && (
-          <div className="bg-red-900/40 border border-red-700 text-red-300 rounded-lg px-4 py-3 mb-6 text-sm">
-            {errors.general}
+          <div className="error-message">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{errors.general}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6" noValidate>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Ballot Topic
             </label>
-            <input
-              type="text"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              className={`w-full bg-gray-900 border ${errors.topic ? "border-red-500" : "border-gray-700"} rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
-              placeholder="e.g. Adopt new remote work policy"
-            />
+            <div className="input-with-icon">
+              <svg
+                className="input-icon w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+              <input
+                type="text"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                className={`input-field ${errors.topic ? "border-red-500" : ""}`}
+                placeholder="e.g. Adopt new remote work policy"
+              />
+            </div>
             {errors.topic && (
-              <p className="text-red-400 text-xs mt-1">{errors.topic}</p>
+              <p className="text-red-500 text-xs mt-1">{errors.topic}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Options
             </label>
             <div className="space-y-2">
               {options.map((opt, i) => (
                 <div key={i} className="flex gap-2">
-                  <input
-                    type="text"
-                    value={opt}
-                    onChange={(e) => updateOption(i, e.target.value)}
-                    className={`flex-1 bg-gray-900 border ${errors.options ? "border-red-500" : "border-gray-700"} rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
-                    placeholder={`Option ${i + 1}`}
-                  />
+                  <div className="input-with-icon flex-1">
+                    <span className="input-icon text-gray-400">{i + 1}.</span>
+                    <input
+                      type="text"
+                      value={opt}
+                      onChange={(e) => updateOption(i, e.target.value)}
+                      className={`input-field ${errors.options ? "border-red-500" : ""}`}
+                      placeholder={`Option ${i + 1}`}
+                    />
+                  </div>
                   {options.length > 2 && (
                     <button
                       type="button"
                       onClick={() => removeOption(i)}
-                      className="text-gray-500 hover:text-red-400 px-2 transition"
+                      className="text-gray-500 hover:text-red-500 px-2 transition"
                     >
                       ✕
                     </button>
@@ -123,63 +157,107 @@ export default function CreateBallotPage() {
               ))}
             </div>
             {errors.options && (
-              <p className="text-red-400 text-xs mt-1">{errors.options}</p>
+              <p className="text-red-500 text-xs mt-1">{errors.options}</p>
             )}
             <button
               type="button"
               onClick={addOption}
-              className="mt-2 text-indigo-400 hover:text-indigo-300 text-sm transition"
+              className="mt-2 text-primary hover:text-primary-hover text-sm font-medium transition"
             >
               + Add option
             </button>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Voting Deadline
             </label>
-            <input
-              type="datetime-local"
-              value={deadline}
-              min={minDeadline}
-              onChange={(e) => setDeadline(e.target.value)}
-              className={`w-full bg-gray-900 border ${errors.deadline ? "border-red-500" : "border-gray-700"} rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500`}
-            />
+            <div className="input-with-icon">
+              <svg
+                className="input-icon w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <input
+                type="datetime-local"
+                value={deadline}
+                min={minDeadline}
+                onChange={(e) => setDeadline(e.target.value)}
+                className={`input-field ${errors.deadline ? "border-red-500" : ""}`}
+              />
+            </div>
             {errors.deadline && (
-              <p className="text-red-400 text-xs mt-1">{errors.deadline}</p>
+              <p className="text-red-500 text-xs mt-1">{errors.deadline}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Eligible Voters List
             </label>
             <p className="text-gray-500 text-xs mb-2">
               Upload a CSV or plain-text file with one voter identifier per line
               (max 10MB)
             </p>
-            <input
-              type="file"
-              accept=".csv,.txt,text/plain,text/csv"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-              className={`w-full bg-gray-900 border ${errors.file ? "border-red-500" : "border-gray-700"} rounded-lg px-4 py-2.5 text-gray-300 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-indigo-600 file:text-white file:text-sm file:cursor-pointer focus:outline-none`}
-            />
-            {file && (
-              <p className="text-gray-400 text-xs mt-1">
-                {file.name} ({(file.size / 1024).toFixed(1)} KB)
-              </p>
-            )}
+            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary transition cursor-pointer">
+              <input
+                type="file"
+                accept=".csv,.txt,text/plain,text/csv"
+                onChange={(e) => setFile(e.target.files?.[0] || null)}
+                className="hidden"
+                id="file-upload"
+              />
+              <label htmlFor="file-upload" className="cursor-pointer">
+                <svg
+                  className="w-10 h-10 mx-auto text-gray-400 mb-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                  />
+                </svg>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                  {file ? file.name : "Click to upload or drag and drop"}
+                </p>
+                {file && (
+                  <p className="text-gray-500 text-xs mt-1">
+                    {(file.size / 1024).toFixed(1)} KB
+                  </p>
+                )}
+              </label>
+            </div>
             {errors.file && (
-              <p className="text-red-400 text-xs mt-1">{errors.file}</p>
+              <p className="text-red-500 text-xs mt-1">{errors.file}</p>
             )}
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition"
+            className="w-full btn-primary"
           >
-            {loading ? "Creating ballot..." : "Create Ballot"}
+            {loading ? (
+              <span className="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            ) : (
+              "Launch Ballot"
+            )}
           </button>
         </form>
       </div>

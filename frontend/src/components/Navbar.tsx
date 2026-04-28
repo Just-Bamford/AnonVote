@@ -96,7 +96,7 @@ export default function Navbar() {
 
         {isAuthenticated ? (
           <div className="flex items-center gap-4">
-            <span className="font-dm-sans text-sm text-gray-600 dark:text-gray-300">
+            <span className="font-dm-sans text-sm font-medium text-gray-900 dark:text-gray-100">
               {orgName}
             </span>
             <button
@@ -111,7 +111,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <Link
               to="/login"
-              className="font-dm-sans text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
+              className="font-dm-sans text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition"
             >
               Login
             </Link>

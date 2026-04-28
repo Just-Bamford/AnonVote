@@ -1,61 +1,66 @@
 /* 
  * AnonVote Design System - Theme Variables
- * Dark mode default with light mode toggle
+ * Light mode default with dark mode toggle
+ * Inspired by: Vercel (dark precision), Uber (bold CTAs), Apple (light spacing), Cal (clean interface), Figma (modern UI)
  */
 
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 :root {
-  /* Light Theme (Default) */
-  --color-bg: #f8fafc;
-  --color-text: #0f172a;
+  /* Light Theme - Apple-inspired clean, premium feel (DEFAULT) */
+  --color-bg: #fafafa;
+  --color-text: #1a1a1a;
   --color-card-bg: #ffffff;
-  --color-card-border: #e2e8f0;
-  --color-input-bg: #f1f5f9;
-  --color-input-border: #cbd5e1;
-  --color-input-focus-ring: #4f46e5;
-  --color-primary: #4f46e5;
-  --color-primary-hover: #4338ca;
+  --color-card-border: #e6e6e6;
+  --color-input-bg: #f5f5f5;
+  --color-input-border: #d6d6d6;
+  --color-input-focus-ring: #198259;
+  --color-primary: #2cb67d;
+  --color-primary-hover: #198259;
   --color-success: #10b981;
-  --color-success-bg: #d1fae5;
-  --color-success-border: #a7f3d0;
-  --color-error: #ef4444;
-  --color-error-bg: #fee2e2;
-  --color-error-border: #fecaca;
-  --color-muted: #64748b;
-  --color-grid-overlay: rgba(15, 23, 42, 0.04);
-  --color-glow-indigo: rgba(79, 70, 229, 0.08);
-  --color-glow-emerald: rgba(16, 185, 129, 0.08);
+  --color-success-bg: #eefbf4;
+  --color-success-border: #d7f4e3;
+  --color-error: #ff0005;
+  --color-error-bg: #ffe5e5;
+  --color-error-border: #ffcccc;
+  --color-muted: #767676;
+  --color-grid-overlay: rgba(26, 26, 26, 0.03);
+  --color-glow-indigo: rgba(25, 130, 89, 0.08);
+  --color-glow-emerald: rgba(44, 182, 125, 0.08);
   --shadow-card:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   --shadow-card-hover:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-uber: 0 10px 20px rgba(0, 0, 0, 0.12);
+  --shadow-uber-hover: 0 14px 28px rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="dark"] {
-  /* Dark Theme */
-  --color-bg: #080b12;
-  --color-text: #e2e8f0;
-  --color-card-bg: #1e293b;
-  --color-card-border: #334155;
-  --color-input-bg: #0f172a;
-  --color-input-border: #475569;
-  --color-input-focus-ring: #4f46e5;
-  --color-primary: #4f46e5;
-  --color-primary-hover: #6366f1;
+  /* Dark Theme - Vercel-inspired precision and depth */
+  --color-bg: #000000;
+  --color-text: #e6e6e6;
+  --color-card-bg: #1a1a1a;
+  --color-card-border: #292929;
+  --color-input-bg: #0a0a0a;
+  --color-input-border: #434343;
+  --color-input-focus-ring: #4abd8a;
+  --color-primary: #4abd8a;
+  --color-primary-hover: #2cb67d;
   --color-success: #10b981;
   --color-success-bg: #064e3b;
   --color-success-border: #115e59;
-  --color-error: #ef4444;
+  --color-error: #ff0005;
   --color-error-bg: #7f1d1d;
   --color-error-border: #991b1b;
-  --color-muted: #94a3b8;
+  --color-muted: #a5a5a5;
   --color-grid-overlay: rgba(255, 255, 255, 0.04);
-  --color-glow-indigo: rgba(79, 70, 229, 0.12);
-  --color-glow-emerald: rgba(16, 185, 129, 0.12);
+  --color-glow-indigo: rgba(25, 130, 89, 0.12);
+  --color-glow-emerald: rgba(74, 189, 138, 0.12);
   --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
   --shadow-card-hover:
     0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-uber: 0 10px 20px rgba(0, 0, 0, 0.3);
+  --shadow-uber-hover: 0 14px 28px rgba(0, 0, 0, 0.4);
 }
 
 /* Font Families */

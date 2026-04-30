@@ -307,16 +307,53 @@ body {
   background-color: var(--surface-base);
   position: relative;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+  padding-bottom: 60px;
 }
 
-/* Dot grid background — Apple/Vercel depth effect */
-.bg-grid {
-  background-image: radial-gradient(
-    circle,
-    var(--overlay-grid) 1px,
-    transparent 1px
+.page-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-4);
+  overflow: hidden;
+  padding-top: 56px;
+  padding-bottom: 60px;
+}
+
+/* Scrollable content wrapper for login/register pages */
+.scrollable-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-4);
+  overflow-y: auto;
+}
+
+/* Skeleton loading animation */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-raised) 25%,
+    var(--border-soft) 50%,
+    var(--surface-raised) 75%
   );
-  background-size: 28px 28px;
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Radial glow blobs */
@@ -428,6 +465,10 @@ body {
 
 .input-field.has-icon {
   padding-left: 38px;
+}
+
+.input-field.has-icon-right {
+  padding-right: 42px;
 }
 
 .input-field::placeholder {
@@ -621,11 +662,22 @@ body {
   border-radius: var(--radius-md);
   font-size: var(--text-base);
   line-height: 1.5;
+  margin-bottom: 20px;
 }
 
 .message-icon {
   flex-shrink: 0;
   margin-top: 1px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+.message-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 .message-error {
@@ -712,7 +764,7 @@ body {
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
-  background: var(--surface-sunken);
+  background: var(--surface-base);
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
@@ -800,8 +852,10 @@ body {
    12. NAVBAR
    ============================================================ */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background-color: var(--surface-overlay);
   backdrop-filter: saturate(180%) blur(20px);
@@ -960,17 +1014,28 @@ body {
    16. LINK STYLES
    ============================================================ */
 .link {
-  color: var(--brand-primary);
-  text-decoration: none;
+  color: var(--ink-secondary);
   font-weight: var(--weight-medium);
-  transition:
-    color var(--transition-fast),
-    opacity var(--transition-fast);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity var(--transition-fast);
 }
 
 .link:hover {
   color: var(--brand-primary-dim);
   text-decoration: underline;
+}
+
+.link-dark {
+  color: var(--ink-secondary);
+  font-weight: var(--weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity var(--transition-fast);
+}
+
+.link-dark:hover {
+  opacity: 0.7;
 }
 
 /* ============================================================

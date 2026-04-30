@@ -52,105 +52,114 @@ export default function TokenRequestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-grid-overlay glow-indigo glow-emerald">
+    <div className="page-wrapper">
       <Navbar />
-      <div className="max-w-lg mx-auto px-4 sm:px-6 py-10">
-        <div className="section-eyebrow mb-2">Get Your Voting Token</div>
-        <h1 className="text-3xl font-space-grotesk font-bold mb-2">
-          Get Your Voting Token
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300 mb-8">
-          Enter your identifier to receive a one-time anonymous voting token.
-        </p>
+      <div className="page-content">
+        <div className="max-w-lg mx-auto px-4 sm:px-6 py-10">
+          <div className="section-eyebrow mb-2">Get Your Voting Token</div>
+          <h1 className="text-3xl font-space-grotesk font-bold mb-2">
+            Get Your Voting Token
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mb-8">
+            Enter your identifier to receive a one-time anonymous voting token.
+          </p>
 
-        {ballotError ? (
-          <div className="card p-8 text-center">
-            <p className="text-gray-600 dark:text-gray-400">{ballotError}</p>
-          </div>
-        ) : !ballot ? (
-          <div className="card p-8 animate-pulse h-48" />
-        ) : token ? (
-          <TokenDisplay token={token} ballotId={ballotId!} />
-        ) : (
-          <div className="card p-6 space-y-6">
-            <div className="card p-4">
-              <p className="text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wide mb-1 font-mono">
-                Ballot
-              </p>
-              <p className="text-gray-900 dark:text-white font-semibold">
-                {ballot.topic}
-              </p>
-              <p className="text-gray-500 text-sm mt-1">
-                Closes: {new Date(ballot.deadline).toLocaleString()}
-              </p>
+          {ballotError ? (
+            <div className="card p-8 text-center">
+              <p className="text-gray-600 dark:text-gray-400">{ballotError}</p>
             </div>
-
-            {error && (
-              <div className="message message-error">
-                <svg
-                  className="message-icon"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{error}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Your Voter Identifier
-                </label>
-                <p className="text-gray-500 text-xs mb-2">
-                  e.g. your email address or employee ID as provided by your
-                  administrator
+          ) : !ballot ? (
+            <div className="card p-8 animate-pulse h-48" />
+          ) : token ? (
+            <TokenDisplay token={token} ballotId={ballotId!} />
+          ) : (
+            <div className="card p-6 space-y-6">
+              <div className="card p-4">
+                <p className="text-gray-600 dark:text-gray-400 text-xs uppercase tracking-wide mb-1 font-mono">
+                  Ballot
                 </p>
-                <div className="input-wrapper">
-                  <span className="input-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <p className="text-gray-900 dark:text-white font-semibold">
+                  {ballot.topic}
+                </p>
+                <p className="text-gray-500 text-sm mt-1">
+                  Closes: {new Date(ballot.deadline).toLocaleString()}
+                </p>
+              </div>
+
+              {error && (
+                <div className="message message-error">
+                  <span className="message-icon">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
                   </span>
-                  <input
-                    type="text"
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    className="input-field has-icon"
-                    placeholder="your.email@example.com"
-                  />
+                  <span>{error}</span>
                 </div>
-              </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full btn-primary"
-              >
-                {loading ? (
-                  <span className="loading-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </span>
-                ) : (
-                  "Get My Token"
-                )}
-              </button>
-            </form>
-          </div>
-        )}
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Your Voter Identifier
+                  </label>
+                  <p className="text-gray-500 text-xs mb-2">
+                    e.g. your email address or employee ID as provided by your
+                    administrator
+                  </p>
+                  <div className="input-wrapper">
+                    <span className="input-icon">
+                      <svg
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
+                      </svg>
+                    </span>
+                    <input
+                      type="text"
+                      value={identifier}
+                      onChange={(e) => setIdentifier(e.target.value)}
+                      className="input-field has-icon"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full btn-primary"
+                >
+                  {loading ? (
+                    <span className="loading-dots">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </span>
+                  ) : (
+                    "Get My Token"
+                  )}
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

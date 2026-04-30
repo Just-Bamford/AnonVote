@@ -58,9 +58,9 @@ export default function RegisterPage() {
             </p>
 
             {errors.general && (
-              <div className="error-message">
+              <div className="message message-error">
                 <svg
-                  className="w-5 h-5"
+                  className="message-icon"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -107,7 +107,7 @@ export default function RegisterPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Contact Email
+                  Email Address
                 </label>
                 <div className="input-wrapper">
                   <span className="input-icon">

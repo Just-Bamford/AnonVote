@@ -107,9 +107,9 @@ export default function LoginPage() {
             </div>
 
             {successMsg && (
-              <div className="success-message">
+              <div className="message message-success">
                 <svg
-                  className="w-5 h-5"
+                  className="message-icon"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -125,9 +125,9 @@ export default function LoginPage() {
               </div>
             )}
             {error && (
-              <div className="error-message">
+              <div className="message message-error">
                 <svg
-                  className="w-5 h-5"
+                  className="message-icon"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

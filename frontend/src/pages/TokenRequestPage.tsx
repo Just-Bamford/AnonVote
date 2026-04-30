@@ -86,9 +86,9 @@ export default function TokenRequestPage() {
             </div>
 
             {error && (
-              <div className="error-message">
+              <div className="message message-error">
                 <svg
-                  className="w-5 h-5"
+                  className="message-icon"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

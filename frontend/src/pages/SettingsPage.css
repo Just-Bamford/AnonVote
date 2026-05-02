@@ -379,7 +379,7 @@
 .settings-page-subtitle {
   font-size: var(--text-base);
   color: var(--ink-secondary);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-8);
 }
 
 .profile-picture-section {
@@ -633,4 +633,40 @@
   background-color: var(--brand-primary);
   color: white;
   border-color: var(--brand-primary);
+}
+
+/* Network Options */
+.network-options {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.network-option {
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-base);
+}
+
+.network-option:hover {
+  transform: scale(1.05);
+}
+
+/* Status Dot */
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--semantic-success);
+  margin-right: var(--space-2);
+}
+
+/* Chip with truncate */
+.chip-mono-truncate {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

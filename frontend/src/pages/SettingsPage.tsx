@@ -44,6 +44,14 @@ export default function SettingsPage() {
     const saved = localStorage.getItem("anonvote-font-size");
     return saved || "14px";
   });
+  const [network, setNetwork] = useState<"testnet" | "mainnet">("testnet");
+  const stellarExpertUrl =
+    network === "mainnet"
+      ? "https://stellar.expert/explorer/public"
+      : "https://stellar.expert/explorer/testnet";
+  const [orgStellarPublicKey] = useState<string | null>(null);
+  const [lastTransactionId] = useState<string | null>(null);
+  const [totalTransactions] = useState<number>(0);
 
   const sidebarItems = [
     { id: "profile", label: "Profile", icon: "profile" },
@@ -503,43 +511,192 @@ export default function SettingsPage() {
       case "stellar":
         return (
           <div className="settings-content">
-            <h2 className="settings-title">Stellar Configuration</h2>
+            <h2 className="settings-title">Stellar Settings</h2>
+            <p className="settings-page-subtitle">
+              Manage your blockchain configuration.
+            </p>
+
+            {/* Network Card */}
             <div className="card settings-card">
               <div className="settings-section-header">
-                <h3 className="settings-section-title">Blockchain Settings</h3>
+                <h3 className="settings-section-title">Network</h3>
                 <p className="settings-section-description">
-                  Manage your Stellar network configuration
+                  Select your Stellar network
                 </p>
               </div>
               <div className="form-group">
                 <label className="form-label">Network</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value="Testnet"
-                  readOnly
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Public Key</label>
-                <div className="input-with-copy">
-                  <input
-                    type="text"
-                    className="form-input"
-                    value="GB..."
-                    readOnly
-                  />
-                  <button className="btn-secondary">Copy</button>
+                <div className="network-options">
+                  <button
+                    className={`network-option ${
+                      network === "testnet" ? "active" : ""
+                    }`}
+                    onClick={() => setNetwork("testnet")}
+                  >
+                    <span className="badge badge-open">Testnet</span>
+                  </button>
+                  <button
+                    className={`network-option ${
+                      network === "mainnet" ? "active" : ""
+                    }`}
+                    onClick={() => setNetwork("mainnet")}
+                  >
+                    <span className="badge badge-closed">Mainnet</span>
+                  </button>
                 </div>
               </div>
               <div className="form-group">
-                <label className="form-label">Account ID</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value="..."
-                  readOnly
-                />
+                <label className="form-label">Stellar Expert URL</label>
+                <div className="form-row">
+                  <a
+                    href={stellarExpertUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="chip-mono chip-mono-truncate"
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--ink-primary)",
+                    }}
+                  >
+                    {stellarExpertUrl}
+                  </a>
+                  <a
+                    href={stellarExpertUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-secondary"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Transaction Signing</label>
+                <div className="form-row">
+                  <span className="status-badge status-active">
+                    <span className="status-dot" />
+                    Automatic
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Stellar Account Card */}
+            <div className="card settings-card">
+              <div className="settings-section-header">
+                <h3 className="settings-section-title">Stellar Account</h3>
+                <p className="settings-section-description">
+                  Your Stellar account information
+                </p>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Public Key</label>
+                <div className="form-row">
+                  {orgStellarPublicKey ? (
+                    <div className="form-row">
+                      <span className="chip-mono chip-mono-truncate">
+                        {orgStellarPublicKey}
+                      </span>
+                      <button
+                        className="btn-secondary"
+                        onClick={() => {
+                          if (orgStellarPublicKey) {
+                            navigator.clipboard.writeText(orgStellarPublicKey);
+                            alert("Public key copied to clipboard!");
+                          }
+                        }}
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                          />
+                        </svg>
+                        Copy
+                      </button>
+                    </div>
+                  ) : (
+                    <span
+                      className="chip-mono"
+                      style={{ color: "var(--ink-muted)" }}
+                    >
+                      Not configured
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Last Transaction</label>
+                <div className="form-row">
+                  {lastTransactionId ? (
+                    <div className="form-row">
+                      <a
+                        href={`${stellarExpertUrl}/${lastTransactionId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="chip-mono chip-mono-truncate"
+                        style={{
+                          textDecoration: "none",
+                          color: "var(--brand-primary)",
+                        }}
+                      >
+                        {lastTransactionId}
+                      </a>
+                      <a
+                        href={`${stellarExpertUrl}/${lastTransactionId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-secondary"
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  ) : (
+                    <span
+                      className="chip-mono"
+                      style={{ color: "var(--ink-muted)" }}
+                    >
+                      No transactions yet
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Total Transactions</label>
+                <div className="form-row">
+                  <span className="chip-mono">{totalTransactions}</span>
+                </div>
               </div>
             </div>
           </div>

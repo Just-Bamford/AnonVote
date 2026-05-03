@@ -10,6 +10,7 @@ import tokensRouter from "./routes/tokens";
 import votesRouter from "./routes/votes";
 import resultsRouter from "./routes/results";
 import auditRouter from "./routes/audit";
+import delegationsRouter from "./routes/delegations";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/api/tokens", tokensRouter);
 app.use("/api/votes", votesRouter);
 app.use("/api/results", resultsRouter);
 app.use("/api/audit", auditRouter);
+app.use("/api/delegations", delegationsRouter);
 
 app.use(errorHandler);
 

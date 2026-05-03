@@ -76,12 +76,14 @@ model EligibilityEntry {
 }
 
 model VoterToken {
-  id        String    @id @default(uuid())
-  tokenHash String    @unique
-  ballotId  String
-  used      Boolean   @default(false)
-  issuedAt  DateTime  @default(now())
-  usedAt    DateTime?
+  id            String    @id @default(uuid())
+  tokenHash     String    @unique
+  ballotId      String
+  used          Boolean   @default(false)
+  issuedAt      DateTime  @default(now())
+  usedAt        DateTime?
+  delegatedFrom String?   // If set, this token was delegated to by another token
+  delegatedTo   String?   // If set, this token delegates its vote to another token
 }
 
 model Vote {

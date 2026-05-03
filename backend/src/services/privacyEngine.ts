@@ -3,6 +3,7 @@ import { hashToken, encryptVote } from "../utils/crypto";
 import { writeRecord } from "./stellarService";
 import { config } from "../config";
 import { badRequest } from "../utils/errors";
+import { getEffectiveVoter } from "./delegationManager";
 
 /**
  * Submit an anonymous vote.
@@ -17,8 +18,15 @@ export async function submitVote(
 ): Promise<{ voteId: string; ballotId: string; stellarTxId: string }> {
   const tokenHash = hashToken(rawToken);
 
+  // Check if this token delegates to another
+  const { effectiveToken, isDelegated } = await getEffectiveVoter(
+    ballotId,
+    tokenHash,
+  );
+
+  // Use the effective token for validation
   const voterToken = await prisma.voterToken.findUnique({
-    where: { tokenHash },
+    where: { tokenHash: effectiveToken },
   });
 
   if (!voterToken || voterToken.ballotId !== ballotId) {
@@ -60,7 +68,7 @@ export async function submitVote(
 
     // Mark token as used
     await tx.voterToken.update({
-      where: { tokenHash },
+      where: { tokenHash: effectiveToken },
       data: { used: true, usedAt: new Date() },
     });
 

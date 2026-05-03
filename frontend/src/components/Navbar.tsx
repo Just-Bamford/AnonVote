@@ -46,9 +46,11 @@ export default function Navbar() {
     return (
       <nav className="navbar">
         <div className="navbar-logo">
-          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 150 176" xmlns="http://www.w3.org/2000/svg">
             <path
-              d="M 64 128 C 64 163.346 92.654 192 128 192 L 128 256 C 57.308 256 0 198.692 0 128 Z M 192 128 C 192 163.346 220.654 192 256 192 L 256 256 C 185.308 256 128 198.692 128 128 Z M 64 0 C 64 35.346 92.654 64 128 64 L 128 128 C 57.308 128 0 70.692 0 0 Z M 192 0 C 192 35.346 220.654 64 256 64 L 256 128 C 185.308 128 128 70.692 128 0 Z"
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M 120 136 L 120 176 L 40 256 L 0 256 L 0 216 L 80 136 Z M 256 216 L 256 256 L 216 256 L 136 176 L 136 136 L 176 136 Z M 120 80 L 120 120 L 80 120 L 0 40 L 0 0 L 40 0 Z M 256 40 L 176 120 L 136 120 L 136 80 L 216 0 L 256 0 Z"
               fill="currentColor"
             />
           </svg>
@@ -67,11 +69,9 @@ export default function Navbar() {
         to={isAuthenticated ? "/dashboard" : "/login"}
         className="navbar-logo"
       >
-        <svg viewBox="0 0 150 176" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
           <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M 64 128 C 64 163.346 92.654 192 128 192 L 128 256 C 57.308 256 0 198.692 0 128 Z M 192 128 C 192 163.346 220.654 192 256 192 L 256 256 C 185.308 256 128 198.692 128 128 Z M 64 0 C 64 35.346 92.654 64 128 64 L 128 128 C 57.308 128 0 70.692 0 0 Z M 192 0 C 192 35.346 220.654 64 256 64 L 256 128 C 185.308 128 128 70.692 128 0 Z"
+            d="M 120 136 L 120 176 L 40 256 L 0 256 L 0 216 L 80 136 Z M 256 216 L 256 256 L 216 256 L 136 176 L 136 136 L 176 136 Z M 120 80 L 120 120 L 80 120 L 0 40 L 0 0 L 40 0 Z M 256 40 L 176 120 L 136 120 L 136 80 L 216 0 L 256 0 Z"
             fill="currentColor"
           />
         </svg>

@@ -46,10 +46,8 @@ export default function Navbar() {
     return (
       <nav className="navbar">
         <div className="navbar-logo">
-          <svg viewBox="0 0 150 176" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
             <path
-              fillRule="evenodd"
-              clipRule="evenodd"
               d="M 120 136 L 120 176 L 40 256 L 0 256 L 0 216 L 80 136 Z M 256 216 L 256 256 L 216 256 L 136 176 L 136 136 L 176 136 Z M 120 80 L 120 120 L 80 120 L 0 40 L 0 0 L 40 0 Z M 256 40 L 176 120 L 136 120 L 136 80 L 216 0 L 256 0 Z"
               fill="currentColor"
             />
@@ -188,7 +186,7 @@ export default function Navbar() {
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-4">
+          <div className="navBarLogin flex items-center gap-4">
             <Link to="/login" className="font-dm-sans text-sm font-medium">
               Login
             </Link>

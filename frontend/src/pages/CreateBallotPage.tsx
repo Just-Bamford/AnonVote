@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { uploadEligibilityList, createBallot } from "../api/client";
 import Navbar from "../components/Navbar";
+import { useTheme } from "../context/ThemeContext";
 
 export default function CreateBallotPage() {
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [topic, setTopic] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const [deadline, setDeadline] = useState("");
@@ -81,7 +83,6 @@ export default function CreateBallotPage() {
           width: "100%",
         }}
       >
-        {/* Page Header */}
         <div className="text-eyebrow mb-3">New Ballot</div>
         <h1
           className="font-space-grotesk font-bold mb-2"
@@ -96,7 +97,6 @@ export default function CreateBallotPage() {
           Define the topic, options, deadline, and eligible voters.
         </p>
 
-        {/* General Error */}
         {errors.general && (
           <div className="message message-error mb-6">
             <span className="message-icon">
@@ -130,9 +130,7 @@ export default function CreateBallotPage() {
         >
           {/* Ballot Topic */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-[var(--ink-secondary)]">
-              Ballot Topic
-            </label>
+            <label className="form-label">Ballot Topic</label>
             <div className="input-wrapper">
               <span className="input-icon">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,7 +146,9 @@ export default function CreateBallotPage() {
                 type="text"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                className={`input-field has-icon ${errors.topic ? "error" : ""}`}
+                className={
+                  "input-field has-icon " + (errors.topic ? "error" : "")
+                }
                 placeholder="e.g. Adopt new remote work policy"
               />
             </div>
@@ -157,9 +157,7 @@ export default function CreateBallotPage() {
 
           {/* Options */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-[var(--ink-secondary)]">
-              Options
-            </label>
+            <label className="form-label">Options</label>
             <div
               style={{
                 display: "flex",
@@ -196,7 +194,7 @@ export default function CreateBallotPage() {
                       value={opt}
                       onChange={(e) => updateOption(i, e.target.value)}
                       className="input-field has-icon"
-                      placeholder={`Option ${i + 1}`}
+                      placeholder={"Option " + (i + 1)}
                     />
                   </div>
                   {options.length > 2 && (
@@ -210,8 +208,8 @@ export default function CreateBallotPage() {
                         cursor: "pointer",
                         padding: "var(--space-2)",
                         borderRadius: "var(--radius-sm)",
-                        transition: "color var(--transition-fast)",
                         fontSize: "var(--text-base)",
+                        transition: "color var(--transition-fast)",
                       }}
                       onMouseEnter={(e) =>
                         (e.currentTarget.style.color = "var(--semantic-error)")
@@ -240,27 +238,17 @@ export default function CreateBallotPage() {
                 fontWeight: "var(--weight-medium)",
                 fontFamily: "var(--font-body)",
                 padding: 0,
-                transition: "opacity var(--transition-fast)",
               }}
             >
               + Add option
             </button>
           </div>
 
-          {/* Deadline */}
+          {/* Deadline — full input clickable, icon themed */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-[var(--ink-secondary)]">
-              Voting Deadline
-            </label>
+            <label className="form-label">Voting Deadline</label>
             <div className="input-wrapper">
-              <input
-                type="datetime-local"
-                value={deadline}
-                min={minDeadline}
-                onChange={(e) => setDeadline(e.target.value)}
-                className={`input-field ${errors.deadline ? "error" : ""}`}
-              />
-              <span className="input-icon">
+              <span className="input-icon" style={{ pointerEvents: "none" }}>
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -270,91 +258,188 @@ export default function CreateBallotPage() {
                   />
                 </svg>
               </span>
+              <input
+                type="datetime-local"
+                value={deadline}
+                min={minDeadline}
+                onChange={(e) => setDeadline(e.target.value)}
+                className={
+                  "input-field has-icon " + (errors.deadline ? "error" : "")
+                }
+                style={{
+                  cursor: "pointer",
+                  colorScheme: theme === "dark" ? "dark" : "light",
+                }}
+                onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
+              />
             </div>
             {errors.deadline && (
               <p className="field-error">{errors.deadline}</p>
             )}
           </div>
 
-          {/* Weighted Voting Option */}
-          <div>
-            <label className="flex items-center gap-3 cursor-pointer">
-              <div className="relative">
-                <input
-                  type="checkbox"
-                  checked={allowWeightedVoting}
-                  onChange={(e) => setAllowWeightedVoting(e.target.checked)}
-                  className="peer sr-only"
-                />
-                <div className="w-12 h-7 bg-[var(--border-medium)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[var(--brand-primary)]"></div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-[var(--ink-secondary)]">
+          {/* Voting Options — checkboxes */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "var(--space-4)",
+            }}
+          >
+            <label className="form-label" style={{ marginBottom: 0 }}>
+              Voting Options
+            </label>
+
+            {/* Weighted Voting checkbox */}
+            <label
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: "var(--space-3)",
+                cursor: "pointer",
+                padding: "var(--space-4)",
+                background: "var(--surface-sunken)",
+                border:
+                  "1px solid " +
+                  (allowWeightedVoting
+                    ? "var(--brand-primary)"
+                    : "var(--border-soft)"),
+                borderRadius: "var(--radius-md)",
+                transition: "border-color var(--transition-fast)",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={allowWeightedVoting}
+                onChange={(e) => {
+                  setAllowWeightedVoting(e.target.checked);
+                  if (!e.target.checked) setAllowRankedChoice(false);
+                }}
+                style={{
+                  width: "16px",
+                  height: "16px",
+                  marginTop: "2px",
+                  accentColor: "var(--brand-primary)",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                }}
+              />
+              <div>
+                <span
+                  style={{
+                    fontSize: "var(--text-sm)",
+                    fontWeight: "var(--weight-medium)",
+                    color: "var(--ink-primary)",
+                    display: "block",
+                    marginBottom: "var(--space-1)",
+                  }}
+                >
                   Allow Weighted Voting
                 </span>
-                <span className="text-xs text-[var(--ink-muted)]">
+                <span
+                  style={{
+                    fontSize: "var(--text-xs)",
+                    color: "var(--ink-muted)",
+                  }}
+                >
                   Voters can have different vote weights based on their
                   eligibility entry
                 </span>
               </div>
             </label>
-          </div>
 
-          {/* Ranked-Choice Voting Option */}
-          {allowWeightedVoting && (
-            <div>
-              <label className="flex items-center gap-3 cursor-pointer">
-                <div className="relative">
-                  <input
-                    type="checkbox"
-                    checked={allowRankedChoice}
-                    onChange={(e) => setAllowRankedChoice(e.target.checked)}
-                    className="peer sr-only"
-                  />
-                  <div className="w-12 h-7 bg-[var(--border-medium)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[var(--brand-primary)]"></div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-[var(--ink-secondary)]">
+            {/* Ranked Choice checkbox — only shown when weighted is enabled */}
+            {allowWeightedVoting && (
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "var(--space-3)",
+                  cursor: "pointer",
+                  padding: "var(--space-4)",
+                  background: "var(--surface-sunken)",
+                  border:
+                    "1px solid " +
+                    (allowRankedChoice
+                      ? "var(--brand-primary)"
+                      : "var(--border-soft)"),
+                  borderRadius: "var(--radius-md)",
+                  transition: "border-color var(--transition-fast)",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={allowRankedChoice}
+                  onChange={(e) => setAllowRankedChoice(e.target.checked)}
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                    marginTop: "2px",
+                    accentColor: "var(--brand-primary)",
+                    cursor: "pointer",
+                    flexShrink: 0,
+                  }}
+                />
+                <div>
+                  <span
+                    style={{
+                      fontSize: "var(--text-sm)",
+                      fontWeight: "var(--weight-medium)",
+                      color: "var(--ink-primary)",
+                      display: "block",
+                      marginBottom: "var(--space-1)",
+                    }}
+                  >
                     Allow Ranked-Choice Voting
                   </span>
-                  <span className="text-xs text-[var(--ink-muted)]">
+                  <span
+                    style={{
+                      fontSize: "var(--text-xs)",
+                      color: "var(--ink-muted)",
+                    }}
+                  >
                     Voters can rank multiple options (1st, 2nd, 3rd choice)
                   </span>
                 </div>
               </label>
-              {allowRankedChoice && (
-                <div className="mt-3">
-                  <label className="block text-sm font-medium mb-1 text-[var(--ink-secondary)]">
-                    Max Rankings
-                  </label>
-                  <input
-                    type="number"
-                    min="2"
-                    max={options.length}
-                    value={maxRankings}
-                    onChange={(e) =>
-                      setMaxRankings(
-                        Math.min(
-                          Math.max(2, parseInt(e.target.value) || 2),
-                          options.length,
-                        ),
-                      )
-                    }
-                    className="input-field"
-                  />
-                  <p className="text-xs text-[var(--ink-muted)] mt-1">
-                    Maximum number of options voters can rank
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
+            )}
+
+            {/* Max Rankings input */}
+            {allowWeightedVoting && allowRankedChoice && (
+              <div>
+                <label className="form-label">Max Rankings</label>
+                <input
+                  type="number"
+                  min="2"
+                  max={options.length}
+                  value={maxRankings}
+                  onChange={(e) =>
+                    setMaxRankings(
+                      Math.min(
+                        Math.max(2, parseInt(e.target.value) || 2),
+                        options.length,
+                      ),
+                    )
+                  }
+                  className="input-field"
+                  style={{ maxWidth: "120px" }}
+                />
+                <p
+                  style={{
+                    fontSize: "var(--text-xs)",
+                    color: "var(--ink-muted)",
+                    marginTop: "var(--space-1)",
+                  }}
+                >
+                  Maximum number of options voters can rank
+                </p>
+              </div>
+            )}
+          </div>
 
           {/* File Upload */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-[var(--ink-secondary)]">
-              Eligible Voters List
-            </label>
+            <label className="form-label">Eligible Voters List</label>
             <p
               style={{
                 color: "var(--ink-muted)",

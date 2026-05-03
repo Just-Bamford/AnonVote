@@ -16,9 +16,9 @@
 
 /* BMW M dark mode: drop blur, go pure black — blur on black looks muddy */
 [data-theme="dark"] .navbar {
-  background-color: #000000;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: var(--surface-overlay);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -334,14 +334,9 @@
 }
 
 .navBarLogin a:hover {
-  color: var(--brand-primary);
+  color: var(--ink-secondary);
 }
 
-/* Org Name */
-.orgName span {
-  color: var(--ink-primary);
-  text-decoration: none;
-}
 /* ============================================================
    18. REUSABLE DROPDOWN CLASSES
    ============================================================ */

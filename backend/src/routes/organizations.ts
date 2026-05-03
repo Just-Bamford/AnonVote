@@ -4,7 +4,12 @@ import jwt from "jsonwebtoken";
 import { prisma } from "../prisma/client";
 import { config } from "../config";
 import { requireAuth } from "../middleware/auth";
-import { badRequest, unauthorized } from "../utils/errors";
+import { badRequest, unauthorized, notFound } from "../utils/errors";
+import {
+  updateOrg,
+  changeOrgPassword,
+  deleteOrgAccount,
+} from "../services/organizationService";
 
 const router = Router();
 
@@ -127,5 +132,63 @@ router.get("/me", requireAuth, (req: Request, res: Response) => {
     .status(200)
     .json({ data: { id: org.id, name: org.name, email: org.email } });
 });
+
+// PATCH /api/organizations/me — Update name or email
+router.patch(
+  "/me",
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { name, email } = req.body;
+      const updated = await updateOrg(req.organization!.id, { name, email });
+      res.status(200).json({ data: updated });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+// PATCH /api/organizations/password — Change password
+router.patch(
+  "/password",
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { currentPassword, newPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        throw badRequest("Both passwords required");
+      }
+
+      if (newPassword.length < 8) {
+        throw badRequest("Min 8 characters");
+      }
+
+      await changeOrgPassword(
+        req.organization!.id,
+        currentPassword,
+        newPassword,
+      );
+      res.status(200).json({ message: "Password updated" });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+// DELETE /api/organizations/me — Delete account
+router.delete(
+  "/me",
+  requireAuth,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await deleteOrgAccount(req.organization!.id);
+      res.clearCookie("session");
+      res.status(200).json({ message: "Account deleted" });
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 export default router;

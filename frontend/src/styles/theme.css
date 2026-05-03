@@ -135,10 +135,10 @@
    ============================================================ */
 [data-theme="dark"] {
   /* — Surfaces — BMW M: true black foundation, micro-stepped layers */
-  --surface-base: #000000; /* Pure black canvas — M motorsport */
+  --surface-base: #0a0a0a; /* Pure black canvas — M motorsport */
   --surface-raised: #0f0f0f; /* Cards — barely lifted off black */
   --surface-sunken: #080808; /* Inset inputs — recessed into black */
-  --surface-overlay: rgba(0, 0, 0, 0.92); /* Nav — near-opaque black glass */
+  --surface-overlay: rgba(10, 10, 10, 0.7); /* Nav — near-opaque black glass */
 
   /* — Borders — engineered hairlines, BMW precision chrome */
   --border-soft: rgba(255, 255, 255, 0.07); /* Ghost dividers */
@@ -150,7 +150,7 @@
   --ink-secondary: rgba(255, 255, 255, 0.7); /* Body — 70% white */
   --ink-muted: rgba(255, 255, 255, 0.38); /* Captions, placeholders */
   --ink-disabled: rgba(255, 255, 255, 0.18); /* Disabled */
-  --ink-inverse: #000000; /* Text on light surfaces */
+  --ink-inverse: #0a0a0a; /* Text on light surfaces */
 
   /* — Brand — BMW M electric blue, cold and precise */
   --brand-primary: #1c7ed6; /* M sport blue */
@@ -428,6 +428,7 @@ body {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
+  color: var(--ink-muted); /* color here — SVG inherits it */
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -443,7 +444,6 @@ body {
   height: 16px;
   display: block;
   flex-shrink: 0;
-  color: var(--ink-secondary);
 }
 
 .input-field {
@@ -452,7 +452,7 @@ body {
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
-  color: var(--ink-primary);
+  color: var(--ink-muted);
   font-family: var(--font-body);
   font-size: var(--text-base);
   font-weight: var(--weight-regular);
@@ -461,6 +461,10 @@ body {
     border-color var(--transition-base),
     box-shadow var(--transition-base),
     background-color var(--transition-base);
+}
+
+.input-field:not(:placeholder-shown) {
+  color: var(--ink-primary);
 }
 
 .input-field.has-icon {
@@ -875,10 +879,10 @@ body {
 
 /* BMW M dark mode: drop blur, go pure black — blur on black looks muddy */
 [data-theme="dark"] .navbar {
-  background-color: #000000;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: var(--surface-overlay);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .navbar-logo {

@@ -1065,86 +1065,134 @@ export default function SettingsPage() {
         return (
           <div className="settings-content">
             <h2 className="settings-title">Contact Support</h2>
+            <p className="settings-page-subtitle">
+              Get help from the AnonVote team.
+            </p>
+
+            {/* Contact Card */}
             <div className="card settings-card">
               <div className="settings-section-header">
-                <h3 className="settings-section-title">Get in Touch</h3>
+                <h3 className="settings-section-title">Contact</h3>
                 <p className="settings-section-description">
-                  We're here to help with any questions or issues
+                  Reach out to our support team
                 </p>
               </div>
               <div className="form-group">
-                <label className="form-label">Subject</label>
-                <select className="form-select">
-                  <option>General Inquiry</option>
-                  <option>Technical Support</option>
-                  <option>Billing Question</option>
-                  <option>Feature Request</option>
-                </select>
+                <label className="form-label">Email Support</label>
+                <div className="form-row">
+                  <a
+                    href="mailto:support@anonvote.com"
+                    className="link-dark"
+                    style={{ textDecoration: "none" }}
+                  >
+                    support@anonvote.com
+                  </a>
+                </div>
               </div>
               <div className="form-group">
-                <label className="form-label">Message</label>
-                <textarea className="form-textarea" rows={5} />
+                <label className="form-label">GitHub Issues</label>
+                <div className="form-row">
+                  <a
+                    href="https://github.com/Just-Bamford/AnonVote/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-dark"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <span className="chip-mono chip-mono-truncate">
+                      github.com/Just-Bamford/AnonVote/issues
+                    </span>
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      style={{ marginLeft: "var(--space-2)" }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                </div>
               </div>
-              <div className="form-actions">
-                <button className="btn-primary">Send Message</button>
+              <div className="form-group">
+                <label className="form-label">Documentation</label>
+                <div className="form-row">
+                  <a
+                    href="https://github.com/Just-Bamford/AnonVote"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-dark"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <span className="chip-mono chip-mono-truncate">
+                      github.com/Just-Bamford/AnonVote
+                    </span>
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      style={{ marginLeft: "var(--space-2)" }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Response Time</label>
+                <div className="form-row">
+                  <span
+                    className="chip-mono"
+                    style={{ color: "var(--ink-muted)" }}
+                  >
+                    Usually within 24 hours
+                  </span>
+                </div>
               </div>
             </div>
+
+            {/* System Info Card */}
             <div className="card settings-card">
               <div className="settings-section-header">
-                <h3 className="settings-section-title">Help Resources</h3>
+                <h3 className="settings-section-title">System Information</h3>
                 <p className="settings-section-description">
-                  Quick links to documentation and guides
+                  Version and environment details
                 </p>
               </div>
-              <div className="help-links">
-                <a href="#" className="help-link">
-                  <svg
-                    className="help-link-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                    />
-                  </svg>
-                  <span className="help-link-text">Documentation</span>
-                </a>
-                <a href="#" className="help-link">
-                  <svg
-                    className="help-link-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span className="help-link-text">FAQ</span>
-                </a>
-                <a href="#" className="help-link">
-                  <svg
-                    className="help-link-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                    />
-                  </svg>
-                  <span className="help-link-text">Community Forum</span>
-                </a>
+              <div className="form-group">
+                <label className="form-label">Version</label>
+                <div className="form-row">
+                  <span className="chip-mono">v1.1.0</span>
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Environment</label>
+                <div className="form-row">
+                  <span className="chip-mono">Testnet</span>
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Frontend</label>
+                <div className="form-row">
+                  <span className="chip-mono">React 18 + Vite</span>
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Blockchain</label>
+                <div className="form-row">
+                  <span className="chip-mono">Stellar</span>
+                </div>
               </div>
             </div>
           </div>

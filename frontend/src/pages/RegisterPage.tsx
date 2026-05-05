@@ -60,8 +60,12 @@ export default function RegisterPage() {
           </p>
 
           {errors.general && (
-            <div className="message message-error">
-              <span className="message-icon">
+            <div
+              className="message message-error"
+              role="alert"
+              aria-live="assertive"
+            >
+              <span className="message-icon" aria-hidden="true">
                 <svg
                   width="16"
                   height="16"
@@ -103,10 +107,20 @@ export default function RegisterPage() {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="input-field has-icon"
                   placeholder="University of Ilorin"
+                  aria-required="true"
+                  aria-label="Organization name"
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? "name-error" : undefined}
                 />
               </div>
               {errors.name && (
-                <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+                <p
+                  id="name-error"
+                  className="text-red-500 text-xs mt-1"
+                  role="alert"
+                >
+                  {errors.name}
+                </p>
               )}
             </div>
 
@@ -131,10 +145,20 @@ export default function RegisterPage() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   className="input-field has-icon"
                   placeholder="admin@acme.edu"
+                  aria-required="true"
+                  aria-label="Email address"
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? "email-error" : undefined}
                 />
               </div>
               {errors.email && (
-                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                <p
+                  id="email-error"
+                  className="text-red-500 text-xs mt-1"
+                  role="alert"
+                >
+                  {errors.email}
+                </p>
               )}
             </div>
 
@@ -161,10 +185,18 @@ export default function RegisterPage() {
                   }
                   className="input-field has-icon"
                   placeholder="Min. 8 characters"
+                  aria-required="true"
+                  aria-label="Password"
+                  aria-invalid={!!errors.password}
+                  aria-describedby={
+                    errors.password ? "password-error" : undefined
+                  }
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition"
                 >
                   {showPassword ? (
@@ -207,7 +239,13 @@ export default function RegisterPage() {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+                <p
+                  id="password-error"
+                  className="text-red-500 text-xs mt-1"
+                  role="alert"
+                >
+                  {errors.password}
+                </p>
               )}
             </div>
 

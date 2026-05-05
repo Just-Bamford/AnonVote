@@ -200,8 +200,12 @@ export default function TokenRequestPage() {
             </div>
 
             {error && (
-              <div className="message message-error">
-                <span className="message-icon">
+              <div
+                className="message message-error"
+                role="alert"
+                aria-live="assertive"
+              >
+                <span className="message-icon" aria-hidden="true">
                   <svg
                     width="16"
                     height="16"
@@ -228,6 +232,7 @@ export default function TokenRequestPage() {
                   setError("");
                 }}
                 className="btn-ghost"
+                aria-label="Go back to identifier form"
                 style={{ flex: 1, minHeight: "48px" }}
               >
                 Back
@@ -236,6 +241,7 @@ export default function TokenRequestPage() {
                 onClick={handleReissue}
                 disabled={loading}
                 className="btn-primary"
+                aria-label="Request a replacement token"
                 style={{ flex: 2, minHeight: "48px" }}
               >
                 {loading ? (
@@ -256,8 +262,13 @@ export default function TokenRequestPage() {
             {ballotInfo}
 
             {error && (
-              <div className="message message-error">
-                <span className="message-icon">
+              <div
+                id="token-error"
+                className="message message-error"
+                role="alert"
+                aria-live="assertive"
+              >
+                <span className="message-icon" aria-hidden="true">
                   <svg
                     width="16"
                     height="16"
@@ -303,6 +314,10 @@ export default function TokenRequestPage() {
                     onChange={(e) => setIdentifier(e.target.value)}
                     className="input-field has-icon"
                     placeholder="your.email@example.com"
+                    aria-required="true"
+                    aria-label="Voter identifier"
+                    aria-invalid={!!error}
+                    aria-describedby={error ? "token-error" : undefined}
                   />
                 </div>
               </div>

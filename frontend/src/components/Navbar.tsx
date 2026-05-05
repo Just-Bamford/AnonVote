@@ -125,7 +125,9 @@ export default function Navbar() {
               <button
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="navbar-avatar"
-                aria-label="Profile"
+                aria-label="Open profile menu"
+                aria-expanded={isProfileOpen}
+                aria-haspopup="menu"
                 style={avatarUrl ? { padding: 0, overflow: "hidden" } : {}}
               >
                 {avatarUrl ? (
@@ -148,7 +150,11 @@ export default function Navbar() {
 
               {/* Profile Dropdown */}
               {isProfileOpen && (
-                <div className="navbar-dropdown card">
+                <div
+                  className="navbar-dropdown card"
+                  role="menu"
+                  aria-label="Profile menu"
+                >
                   <div className="profile-header">
                     <span
                       className="avatar-text"
@@ -184,6 +190,7 @@ export default function Navbar() {
                   <button
                     onClick={handleProfileClick}
                     className="navbar-dropdown-item"
+                    role="menuitem"
                   >
                     <svg
                       className="profile-icon"
@@ -206,6 +213,12 @@ export default function Navbar() {
                   <button
                     onClick={toggleTheme}
                     className="navbar-dropdown-item"
+                    role="menuitem"
+                    aria-label={
+                      theme === "light"
+                        ? "Switch to dark mode"
+                        : "Switch to light mode"
+                    }
                   >
                     <svg
                       className="profile-icon"
@@ -237,6 +250,8 @@ export default function Navbar() {
                   <button
                     onClick={handleLogoutClick}
                     className="navbar-dropdown-item danger"
+                    role="menuitem"
+                    aria-label="Log out of AnonVote"
                   >
                     <svg
                       className="profile-icon"

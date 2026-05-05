@@ -45,6 +45,8 @@ export default function NotificationDropdown() {
         onClick={() => setIsOpen(!isOpen)}
         className="navbar-bell"
         aria-label="Notifications"
+        aria-expanded={isOpen}
+        aria-haspopup="menu"
       >
         <svg
           width="20"
@@ -69,6 +71,8 @@ export default function NotificationDropdown() {
       {isOpen && (
         <div
           className="navbar-dropdown"
+          role="menu"
+          aria-label="Notifications"
           style={{
             minWidth: "250px",
             maxWidth: "250px",
@@ -98,6 +102,7 @@ export default function NotificationDropdown() {
             <button
               onClick={markAllAsRead}
               className="navbar-dropdown-item"
+              aria-label="Mark all notifications as read"
               style={{
                 width: "auto",
                 padding: "2px 8px",

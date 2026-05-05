@@ -210,16 +210,16 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div>
-            <h2
-              className="font-body font-semibold mb-6"
+            <h3
+              className="font-body font-semibold mb-3"
               style={{
                 fontSize: "var(--text-xl)",
                 color: "var(--ink-primary)",
-                paddingTop: "24px",
+                paddingTop: "var(--space-8)",
               }}
             >
               All Ballots
-            </h2>
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {ballots.map((b) => (
                 <BallotCard

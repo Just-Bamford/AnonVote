@@ -162,8 +162,12 @@ export default function VotePage() {
             </div>
 
             {error && (
-              <div className="message message-error">
-                <span className="message-icon">
+              <div
+                className="message message-error"
+                role="alert"
+                aria-live="assertive"
+              >
+                <span className="message-icon" aria-hidden="true">
                   <svg
                     width="16"
                     height="16"
@@ -205,6 +209,9 @@ export default function VotePage() {
                     onChange={(e) => setToken(e.target.value)}
                     className="input-field has-icon font-mono text-sm"
                     placeholder="Paste your token here"
+                    aria-required="true"
+                    aria-label="Voting token"
+                    aria-invalid={!!error}
                     onBlur={() => {
                       // Set default weight for now
                       setVoteWeight(1);

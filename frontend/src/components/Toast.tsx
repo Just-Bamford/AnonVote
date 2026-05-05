@@ -16,6 +16,9 @@ export default function Toast({ message, type, onClose }: ToastProps) {
 
   return (
     <div
+      role={isSuccess ? "status" : "alert"}
+      aria-live={isSuccess ? "polite" : "assertive"}
+      aria-atomic="true"
       className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out animate-slide-in"
       style={{
         backgroundColor: "var(--surface-raised)",

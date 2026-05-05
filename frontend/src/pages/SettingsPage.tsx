@@ -37,7 +37,6 @@ export default function SettingsPage() {
   const { addNotification } = useNotifications();
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const [avatarError, setAvatarError] = useState("");
-  const [avatarSuccess, setAvatarSuccess] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -304,8 +303,6 @@ export default function SettingsPage() {
                     setAvatarError("");
                     try {
                       await uploadAvatar(file);
-                      setAvatarSuccess(true);
-                      setTimeout(() => setAvatarSuccess(false), 2500);
                       setToast({
                         message: "Profile picture updated successfully",
                         type: "success",
@@ -402,7 +399,6 @@ export default function SettingsPage() {
                         onClick={() => {
                           removeAvatar();
                           setShowRemoveConfirm(false);
-                          setAvatarSuccess(false);
                           setToast({
                             message: "Profile picture removed",
                             type: "success",

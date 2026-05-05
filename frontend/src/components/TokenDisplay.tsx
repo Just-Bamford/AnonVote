@@ -99,8 +99,11 @@ export default function TokenDisplay({ token, ballotId }: Props) {
         <button
           onClick={copy}
           title={copied ? "Copied!" : "Copy token"}
+          aria-label={
+            copied ? "Token copied to clipboard" : "Copy token to clipboard"
+          }
+          aria-pressed={copied}
           style={{
-            background: "none",
             border: "none",
             cursor: "pointer",
             padding: "var(--space-1)",

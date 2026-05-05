@@ -248,11 +248,16 @@ export default function BallotCard({ ballot, onBallotDeleted }: Props) {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap gap-2">
+      <div
+        className="flex flex-wrap gap-2"
+        role="group"
+        aria-label={`Actions for ${ballot.topic}`}
+      >
         {isOpen && (
           <button
             onClick={copyLink}
             className="btn-primary"
+            aria-label={`Copy voter link for ${ballot.topic}`}
             style={{
               flex: 1,
               minWidth: 0,
@@ -268,6 +273,7 @@ export default function BallotCard({ ballot, onBallotDeleted }: Props) {
             onClick={handleTally}
             disabled={isTallying}
             className="btn-ghost"
+            aria-label={`Close and tally ${ballot.topic}`}
             style={{
               fontSize: "var(--text-sm)",
               padding: "8px 12px",
@@ -282,6 +288,7 @@ export default function BallotCard({ ballot, onBallotDeleted }: Props) {
           <Link
             to={`/results/${ballot.id}`}
             className="btn-ghost"
+            aria-label={`View results for ${ballot.topic}`}
             style={{
               flex: 1,
               minWidth: 0,
@@ -296,6 +303,7 @@ export default function BallotCard({ ballot, onBallotDeleted }: Props) {
         <Link
           to={`/ballots/${ballot.id}/edit`}
           className="btn-ghost"
+          aria-label={`Edit ${ballot.topic}`}
           style={{
             fontSize: "var(--text-sm)",
             padding: "8px 12px",
@@ -307,6 +315,7 @@ export default function BallotCard({ ballot, onBallotDeleted }: Props) {
         <Link
           to={`/audit/${ballot.id}`}
           className="btn-ghost"
+          aria-label={`View audit log for ${ballot.topic}`}
           style={{
             fontSize: "var(--text-sm)",
             padding: "8px 12px",
@@ -319,6 +328,7 @@ export default function BallotCard({ ballot, onBallotDeleted }: Props) {
           onClick={handleDelete}
           disabled={isDeleting}
           className="btn-danger"
+          aria-label={`Delete ${ballot.topic}`}
           style={{
             fontSize: "var(--text-sm)",
             padding: "8px 12px",

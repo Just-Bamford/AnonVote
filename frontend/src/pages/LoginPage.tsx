@@ -108,8 +108,12 @@ export default function LoginPage() {
           </div>
 
           {successMsg && (
-            <div className="message message-success">
-              <span className="message-icon">
+            <div
+              className="message message-success"
+              role="status"
+              aria-live="polite"
+            >
+              <span className="message-icon" aria-hidden="true">
                 <svg
                   width="16"
                   height="16"
@@ -129,8 +133,12 @@ export default function LoginPage() {
             </div>
           )}
           {error && (
-            <div className="message message-error">
-              <span className="message-icon">
+            <div
+              className="message message-error"
+              role="alert"
+              aria-live="assertive"
+            >
+              <span className="message-icon" aria-hidden="true">
                 <svg
                   width="16"
                   height="16"
@@ -168,10 +176,13 @@ export default function LoginPage() {
                 </span>
                 <input
                   type="text"
+                  id="login-name"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="input-field has-icon"
                   placeholder="Your organization name"
+                  aria-required="true"
+                  aria-label="Organization name"
                 />
               </div>
             </div>
@@ -192,16 +203,21 @@ export default function LoginPage() {
                 </span>
                 <input
                   type={showPassword ? "text" : "password"}
+                  id="login-password"
                   value={form.password}
                   onChange={(e) =>
                     setForm({ ...form, password: e.target.value })
                   }
                   className="input-field has-icon"
                   placeholder="Your password"
+                  aria-required="true"
+                  aria-label="Password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition"
                 >
                   {showPassword ? (

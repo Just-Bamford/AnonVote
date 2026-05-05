@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { getBallot, submitVote } from "../api/client";
 import Navbar from "../components/Navbar";
 import OptionSelector from "../components/OptionSelector";
@@ -7,9 +7,13 @@ import type { Ballot } from "../types";
 
 export default function VotePage() {
   const { ballotId } = useParams<{ ballotId: string }>();
+  const location = useLocation();
   const [ballot, setBallot] = useState<Ballot | null>(null);
   const [ballotError, setBallotError] = useState("");
-  const [token, setToken] = useState("");
+  // Pre-fill token if navigated from token page
+  const [token, setToken] = useState<string>(
+    (location.state as any)?.token || "",
+  );
   const [selectedOption, setSelectedOption] = useState("");
   const [rankedOptions, setRankedOptions] = useState<string[]>([]);
   const [error, setError] = useState("");

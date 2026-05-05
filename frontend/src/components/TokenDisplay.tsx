@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
   token: string;
@@ -8,11 +8,20 @@ interface Props {
 
 export default function TokenDisplay({ token, ballotId }: Props) {
   const [copied, setCopied] = useState(false);
+  const navigate = useNavigate();
 
   const copy = async () => {
     await navigator.clipboard.writeText(token);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const proceedToVote = async () => {
+    // Copy token to clipboard then navigate with token pre-filled
+    try {
+      await navigator.clipboard.writeText(token);
+    } catch {}
+    navigate(`/vote/${ballotId}`, { state: { token } });
   };
 
   return (
@@ -69,12 +78,22 @@ export default function TokenDisplay({ token, ballotId }: Props) {
         </div>
       </div>
 
-      <Link
-        to={`/vote/${ballotId}`}
-        className="block w-full text-center bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white py-2.5 rounded-lg text-sm font-semibold transition"
-      >
-        Proceed to Vote
-      </Link>
+      <div style={{ display: "flex", gap: "var(--space-3)" }}>
+        <button
+          onClick={copy}
+          className={`py-2.5 rounded-lg font-semibold text-sm transition ${copied ? "bg-green-600 dark:bg-green-700 text-white" : "btn-ghost"}`}
+          style={{ flex: 1 }}
+        >
+          {copied ? "✓ Copied!" : "Copy Token"}
+        </button>
+        <button
+          onClick={proceedToVote}
+          className="btn-primary py-2.5 rounded-lg font-semibold text-sm"
+          style={{ flex: 2 }}
+        >
+          Proceed to Vote →
+        </button>
+      </div>
     </div>
   );
 }

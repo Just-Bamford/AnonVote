@@ -15,9 +15,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src", "../shared"],
+  "exclude": ["src/tests"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

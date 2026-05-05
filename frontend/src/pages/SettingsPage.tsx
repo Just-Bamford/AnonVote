@@ -13,11 +13,13 @@ import {
 } from "../api/client";
 import Navbar from "../components/Navbar";
 import Toast from "../components/Toast";
+import GradientBackground from "../components/GradientBackground";
 import "./SettingsPage.css";
 
 type SettingsSection =
   | "profile"
   | "appearance"
+  | "gradient"
   | "stellar"
   | "security"
   | "danger"
@@ -62,6 +64,32 @@ export default function SettingsPage() {
   const [selectedFontSize, setSelectedFontSize] = useState<string>(() => {
     return localStorage.getItem("anonvote-font-size") || "14px";
   });
+
+  // Gradient state
+  const GRADIENT_KEY = "anonvote-gradient";
+  const defaultGradient = {
+    enabled: false,
+    color1: "#ff5005",
+    color2: "#dbba95",
+    color3: "#d0bce1",
+    type: "waterPlane" as const,
+    animate: "on" as const,
+    uSpeed: 0.4,
+    uStrength: 4.8,
+    uDensity: 0.7,
+    uFrequency: 5.5,
+    brightness: 1.1,
+    grain: "off" as const,
+  };
+  const [gradientConfig, setGradientConfig] = useState(() => {
+    try {
+      const saved = localStorage.getItem(GRADIENT_KEY);
+      return saved ? JSON.parse(saved) : defaultGradient;
+    } catch {
+      return defaultGradient;
+    }
+  });
+  const [gradientSaved, setGradientSaved] = useState(false);
   const [network, setNetwork] = useState<"testnet" | "mainnet">("testnet");
   const stellarExpertUrl =
     network === "mainnet"
@@ -197,6 +225,7 @@ export default function SettingsPage() {
   const sidebarItems = [
     { id: "profile", label: "Profile", icon: "profile" },
     { id: "appearance", label: "Appearance", icon: "palette" },
+    { id: "gradient", label: "Gradient", icon: "gradient" },
     { id: "stellar", label: "Stellar", icon: "stellar" },
     { id: "security", label: "Security", icon: "shield" },
     { id: "danger", label: "Danger Zone", icon: "alert" },
@@ -843,6 +872,440 @@ export default function SettingsPage() {
                 ))}
               </div>
             </div>
+          </div>
+        );
+
+      case "gradient":
+        return (
+          <div className="settings-content">
+            <h2 className="settings-title">Gradient Background</h2>
+            <p className="settings-page-subtitle">
+              Apply an animated shader gradient as the site background.
+            </p>
+
+            {/* Enable toggle */}
+            <div className="card settings-card">
+              <div className="settings-section-header">
+                <h3 className="settings-section-title">Enable Gradient</h3>
+                <p className="settings-section-description">
+                  Replaces the solid background with an animated 3D gradient
+                </p>
+              </div>
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "var(--space-3)",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={gradientConfig.enabled}
+                  onChange={(e) =>
+                    setGradientConfig((p: typeof defaultGradient) => ({
+                      ...p,
+                      enabled: e.target.checked,
+                    }))
+                  }
+                  style={{
+                    width: 18,
+                    height: 18,
+                    accentColor: "var(--brand-primary)",
+                    cursor: "pointer",
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: "var(--text-sm)",
+                    color: "var(--ink-primary)",
+                    fontWeight: "var(--weight-medium)",
+                  }}
+                >
+                  {gradientConfig.enabled
+                    ? "Gradient is ON"
+                    : "Gradient is OFF"}
+                </span>
+              </label>
+            </div>
+
+            {/* Color pickers */}
+            <div className="card settings-card">
+              <div className="settings-section-header">
+                <h3 className="settings-section-title">Colors</h3>
+                <p className="settings-section-description">
+                  Three gradient blend colors
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "var(--space-4)",
+                  flexWrap: "wrap",
+                }}
+              >
+                {(["color1", "color2", "color3"] as const).map((key, i) => (
+                  <div
+                    key={key}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--space-1)",
+                      alignItems: "center",
+                    }}
+                  >
+                    <label
+                      style={{
+                        fontSize: "var(--text-xs)",
+                        color: "var(--ink-muted)",
+                      }}
+                    >
+                      Color {i + 1}
+                    </label>
+                    <input
+                      type="color"
+                      value={gradientConfig[key]}
+                      onChange={(e) =>
+                        setGradientConfig((p: typeof defaultGradient) => ({
+                          ...p,
+                          [key]: e.target.value,
+                        }))
+                      }
+                      style={{
+                        width: 48,
+                        height: 48,
+                        borderRadius: "var(--radius-md)",
+                        border: "1px solid var(--border-medium)",
+                        cursor: "pointer",
+                        padding: 2,
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "var(--text-xs)",
+                        color: "var(--ink-muted)",
+                      }}
+                    >
+                      {gradientConfig[key]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Presets */}
+            <div className="card settings-card">
+              <div className="settings-section-header">
+                <h3 className="settings-section-title">Presets</h3>
+                <p className="settings-section-description">
+                  Quick-start color combinations
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "var(--space-3)",
+                  flexWrap: "wrap",
+                }}
+              >
+                {[
+                  {
+                    name: "Sunset",
+                    color1: "#ff5005",
+                    color2: "#dbba95",
+                    color3: "#d0bce1",
+                  },
+                  {
+                    name: "Ocean",
+                    color1: "#0061ff",
+                    color2: "#60efff",
+                    color3: "#00c6ff",
+                  },
+                  {
+                    name: "Forest",
+                    color1: "#134e5e",
+                    color2: "#71b280",
+                    color3: "#d0bce1",
+                  },
+                  {
+                    name: "Midnight",
+                    color1: "#0f0c29",
+                    color2: "#302b63",
+                    color3: "#24243e",
+                  },
+                  {
+                    name: "Rose",
+                    color1: "#f953c6",
+                    color2: "#b91d73",
+                    color3: "#f0c27f",
+                  },
+                  {
+                    name: "Slate",
+                    color1: "#1c7ed6",
+                    color2: "#0a3d62",
+                    color3: "#d0bce1",
+                  },
+                ].map((preset) => (
+                  <button
+                    key={preset.name}
+                    onClick={() =>
+                      setGradientConfig((p: typeof defaultGradient) => ({
+                        ...p,
+                        color1: preset.color1,
+                        color2: preset.color2,
+                        color3: preset.color3,
+                      }))
+                    }
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "var(--space-2)",
+                      padding: "var(--space-2) var(--space-3)",
+                      borderRadius: "var(--radius-pill)",
+                      border: "1px solid var(--border-medium)",
+                      background: `linear-gradient(135deg, ${preset.color1}, ${preset.color2}, ${preset.color3})`,
+                      cursor: "pointer",
+                      fontSize: "var(--text-xs)",
+                      fontWeight: "var(--weight-semibold)",
+                      color: "white",
+                      fontFamily: "var(--font-display)",
+                      textShadow: "0 1px 2px rgba(0,0,0,0.4)",
+                      transition: "transform var(--transition-fast)",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.05)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
+                  >
+                    {preset.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Motion controls */}
+            <div className="card settings-card">
+              <div className="settings-section-header">
+                <h3 className="settings-section-title">Motion</h3>
+                <p className="settings-section-description">
+                  Control animation and shape
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "var(--space-4)",
+                }}
+              >
+                {/* Animate toggle */}
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "var(--space-3)",
+                    cursor: "pointer",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={gradientConfig.animate === "on"}
+                    onChange={(e) =>
+                      setGradientConfig((p: typeof defaultGradient) => ({
+                        ...p,
+                        animate: e.target.checked ? "on" : "off",
+                      }))
+                    }
+                    style={{
+                      width: 16,
+                      height: 16,
+                      accentColor: "var(--brand-primary)",
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: "var(--text-sm)",
+                      color: "var(--ink-primary)",
+                    }}
+                  >
+                    Animate
+                  </span>
+                </label>
+
+                {/* Type */}
+                <div>
+                  <label
+                    style={{
+                      fontSize: "var(--text-xs)",
+                      color: "var(--ink-muted)",
+                      display: "block",
+                      marginBottom: "var(--space-2)",
+                    }}
+                  >
+                    Shape
+                  </label>
+                  <div style={{ display: "flex", gap: "var(--space-2)" }}>
+                    {(["plane", "sphere", "waterPlane"] as const).map((t) => (
+                      <button
+                        key={t}
+                        onClick={() =>
+                          setGradientConfig((p: typeof defaultGradient) => ({
+                            ...p,
+                            type: t,
+                          }))
+                        }
+                        style={{
+                          padding: "4px 12px",
+                          borderRadius: "var(--radius-pill)",
+                          border: `1px solid ${gradientConfig.type === t ? "var(--brand-primary)" : "var(--border-medium)"}`,
+                          background:
+                            gradientConfig.type === t
+                              ? "var(--brand-primary-pale)"
+                              : "none",
+                          color:
+                            gradientConfig.type === t
+                              ? "var(--brand-primary)"
+                              : "var(--ink-secondary)",
+                          fontSize: "var(--text-xs)",
+                          cursor: "pointer",
+                          fontFamily: "var(--font-body)",
+                        }}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Sliders */}
+                {(
+                  [
+                    {
+                      key: "uSpeed",
+                      label: "Speed",
+                      min: 0,
+                      max: 2,
+                      step: 0.1,
+                    },
+                    {
+                      key: "uStrength",
+                      label: "Strength",
+                      min: 0,
+                      max: 10,
+                      step: 0.1,
+                    },
+                    {
+                      key: "uDensity",
+                      label: "Density",
+                      min: 0,
+                      max: 3,
+                      step: 0.1,
+                    },
+                    {
+                      key: "uFrequency",
+                      label: "Frequency",
+                      min: 0,
+                      max: 10,
+                      step: 0.1,
+                    },
+                    {
+                      key: "brightness",
+                      label: "Brightness",
+                      min: 0,
+                      max: 2,
+                      step: 0.1,
+                    },
+                  ] as const
+                ).map(({ key, label, min, max, step }) => (
+                  <div key={key}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginBottom: "var(--space-1)",
+                      }}
+                    >
+                      <label
+                        style={{
+                          fontSize: "var(--text-xs)",
+                          color: "var(--ink-muted)",
+                        }}
+                      >
+                        {label}
+                      </label>
+                      <span
+                        style={{
+                          fontSize: "var(--text-xs)",
+                          fontFamily: "var(--font-mono)",
+                          color: "var(--ink-secondary)",
+                        }}
+                      >
+                        {gradientConfig[key]}
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min={min}
+                      max={max}
+                      step={step}
+                      value={gradientConfig[key]}
+                      onChange={(e) =>
+                        setGradientConfig((p: typeof defaultGradient) => ({
+                          ...p,
+                          [key]: parseFloat(e.target.value),
+                        }))
+                      }
+                      style={{
+                        width: "100%",
+                        accentColor: "var(--brand-primary)",
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Save / Reset */}
+            <div style={{ display: "flex", gap: "var(--space-3)" }}>
+              <button
+                className="btn-ghost"
+                style={{ flex: 1, minHeight: "44px" }}
+                onClick={() => {
+                  setGradientConfig(defaultGradient);
+                  localStorage.removeItem(GRADIENT_KEY);
+                }}
+              >
+                Reset to Default
+              </button>
+              <button
+                className="btn-primary"
+                style={{ flex: 2, minHeight: "44px" }}
+                onClick={() => {
+                  localStorage.setItem(
+                    GRADIENT_KEY,
+                    JSON.stringify(gradientConfig),
+                  );
+                  setGradientSaved(true);
+                  setTimeout(() => setGradientSaved(false), 2000);
+                }}
+              >
+                {gradientSaved ? "✓ Saved" : "Save Gradient"}
+              </button>
+            </div>
+
+            {/* Live preview note */}
+            <p
+              style={{
+                fontSize: "var(--text-xs)",
+                color: "var(--ink-muted)",
+                textAlign: "center",
+              }}
+            >
+              Changes preview live. Click Save to persist across sessions.
+            </p>
           </div>
         );
 
@@ -1764,6 +2227,9 @@ export default function SettingsPage() {
         </div>
       </div>
 
+      {/* Live gradient preview — shown while on gradient settings */}
+      {gradientConfig.enabled && <GradientBackground config={gradientConfig} />}
+
       {/* Global toast for avatar actions */}
       {toast && (
         <Toast
@@ -1778,6 +2244,28 @@ export default function SettingsPage() {
 
 function getIcon(name: string) {
   const icons: Record<string, React.ReactNode> = {
+    gradient: (
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <defs>
+          <linearGradient id="grad-icon" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ff5005" />
+            <stop offset="100%" stopColor="#d0bce1" />
+          </linearGradient>
+        </defs>
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+          stroke="url(#grad-icon)"
+        />
+      </svg>
+    ),
     profile: (
       <svg
         className="w-5 h-5"

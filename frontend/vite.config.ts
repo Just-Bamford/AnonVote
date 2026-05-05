@@ -17,4 +17,18 @@ export default defineConfig({
     setupFiles: ["./src/tests/setup.ts"],
     css: false,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "three-vendor": [
+            "three",
+            "@react-three/fiber",
+            "@shadergradient/react",
+          ],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1500,
+  },
 });

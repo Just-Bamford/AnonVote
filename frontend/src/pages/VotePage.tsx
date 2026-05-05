@@ -39,7 +39,7 @@ export default function VotePage() {
     if (rankedOptions.includes(optionId)) {
       setRankedOptions(rankedOptions.filter((id) => id !== optionId));
     } else {
-      if (ballot.maxRankings && rankedOptions.length >= ballot.maxRankings) {
+      if (ballot?.maxRankings && rankedOptions.length >= ballot.maxRankings) {
         setError(`You can only rank up to ${ballot.maxRankings} options.`);
         return;
       }
@@ -72,8 +72,7 @@ export default function VotePage() {
 
       const result = await submitVote(voteData);
       setSuccess(true);
-      // Store verification hash for display
-      setVerificationHash(`${result.voteId}:${ballotId}`);
+      setVerificationHash(`${result.data.data.voteId}:${ballotId}`);
     } catch (err: any) {
       setError(
         err.response?.data?.message ||
@@ -229,7 +228,7 @@ export default function VotePage() {
                 </label>
                 {ballot.allowRankedChoice ? (
                   <div className="space-y-2">
-                    {ballot.options.map((option, index) => {
+                    {ballot.options.map((option) => {
                       const rank = rankedOptions.indexOf(option.id) + 1;
                       const isSelected = rankedOptions.includes(option.id);
                       return (

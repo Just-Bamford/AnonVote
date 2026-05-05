@@ -1,18 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage";
-import DashboardPage from "./pages/DashboardPage";
-import CreateBallotPage from "./pages/CreateBallotPage";
-import EditBallotPage from "./pages/EditBallotPage";
-import TokenRequestPage from "./pages/TokenRequestPage";
-import VotePage from "./pages/VotePage";
-import ResultsPage from "./pages/ResultsPage";
-import AuditPage from "./pages/AuditPage";
-import SettingsPage from "./pages/SettingsPage";
-import ProtectedRoute from "./components/ProtectedRoute";
 import PageLoader from "./components/PageLoader";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { NotificationProvider } from "./context/NotificationContext";
+
+// Lazy-loaded pages — each chunk only downloads when the route is visited
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const CreateBallotPage = lazy(() => import("./pages/CreateBallotPage"));
+const EditBallotPage = lazy(() => import("./pages/EditBallotPage"));
+const TokenRequestPage = lazy(() => import("./pages/TokenRequestPage"));
+const VotePage = lazy(() => import("./pages/VotePage"));
+const ResultsPage = lazy(() => import("./pages/ResultsPage"));
+const AuditPage = lazy(() => import("./pages/AuditPage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -27,47 +29,52 @@ export default function App() {
   return (
     <NotificationProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/ballots/new"
-            element={
-              <ProtectedRoute>
-                <CreateBallotPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <SettingsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/ballots/:ballotId/edit"
-            element={
-              <ProtectedRoute>
-                <EditBallotPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/vote/:ballotId/token" element={<TokenRequestPage />} />
-          <Route path="/vote/:ballotId" element={<VotePage />} />
-          <Route path="/results/:ballotId" element={<ResultsPage />} />
-          <Route path="/audit/:ballotId" element={<AuditPage />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ballots/new"
+              element={
+                <ProtectedRoute>
+                  <CreateBallotPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ballots/:ballotId/edit"
+              element={
+                <ProtectedRoute>
+                  <EditBallotPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/vote/:ballotId/token"
+              element={<TokenRequestPage />}
+            />
+            <Route path="/vote/:ballotId" element={<VotePage />} />
+            <Route path="/results/:ballotId" element={<ResultsPage />} />
+            <Route path="/audit/:ballotId" element={<AuditPage />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </NotificationProvider>
   );

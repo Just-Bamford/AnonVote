@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   updateOrg,
   changePassword,
@@ -13,9 +13,6 @@ import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../context/ThemeContext";
 import { useAvatar } from "../hooks/useAvatar";
 import { useNotifications } from "../context/NotificationContext";
-const GradientBackground = lazy(
-  () => import("../components/GradientBackground"),
-);
 import "./SettingsPage.css";
 
 type SettingsSection =
@@ -74,14 +71,7 @@ export default function SettingsPage() {
     color1: "#ff5005",
     color2: "#dbba95",
     color3: "#d0bce1",
-    type: "waterPlane" as const,
-    animate: "on" as const,
-    uSpeed: 0.4,
-    uStrength: 4.8,
-    uDensity: 0.7,
-    uFrequency: 5.5,
-    brightness: 1.1,
-    grain: "off" as const,
+    direction: "135deg" as const,
   };
   const [gradientConfig, setGradientConfig] = useState(() => {
     try {
@@ -880,17 +870,44 @@ export default function SettingsPage() {
       case "gradient":
         return (
           <div className="settings-content">
-            <h2 className="settings-title">Gradient Background</h2>
+            <h2 className="settings-title">Gradient Brand Color</h2>
             <p className="settings-page-subtitle">
-              Apply an animated shader gradient as the site background.
+              Replace the solid brand color with a gradient on buttons, badges,
+              and accents.
             </p>
+
+            {/* Live preview strip */}
+            <div className="card settings-card" style={{ overflow: "hidden" }}>
+              <div
+                style={{
+                  height: "56px",
+                  borderRadius: "var(--radius-md)",
+                  background: gradientConfig.enabled
+                    ? `linear-gradient(${gradientConfig.direction}, ${gradientConfig.color1}, ${gradientConfig.color2}, ${gradientConfig.color3})`
+                    : "var(--brand-primary)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontFamily: "var(--font-display)",
+                  fontWeight: "var(--weight-semibold)",
+                  fontSize: "var(--text-sm)",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {gradientConfig.enabled
+                  ? "Gradient Preview"
+                  : "Solid Brand Color"}
+              </div>
+            </div>
 
             {/* Enable toggle */}
             <div className="card settings-card">
               <div className="settings-section-header">
                 <h3 className="settings-section-title">Enable Gradient</h3>
                 <p className="settings-section-description">
-                  Replaces the solid background with an animated 3D gradient
+                  Applies gradient to buttons, badges, navbar avatar, and
+                  progress bars
                 </p>
               </div>
               <label
@@ -942,7 +959,7 @@ export default function SettingsPage() {
               <div
                 style={{
                   display: "flex",
-                  gap: "var(--space-4)",
+                  gap: "var(--space-6)",
                   flexWrap: "wrap",
                 }}
               >
@@ -952,7 +969,7 @@ export default function SettingsPage() {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      gap: "var(--space-1)",
+                      gap: "var(--space-2)",
                       alignItems: "center",
                     }}
                   >
@@ -974,8 +991,8 @@ export default function SettingsPage() {
                         }))
                       }
                       style={{
-                        width: 48,
-                        height: 48,
+                        width: 52,
+                        height: 52,
                         borderRadius: "var(--radius-md)",
                         border: "1px solid var(--border-medium)",
                         cursor: "pointer",
@@ -996,12 +1013,67 @@ export default function SettingsPage() {
               </div>
             </div>
 
+            {/* Direction */}
+            <div className="card settings-card">
+              <div className="settings-section-header">
+                <h3 className="settings-section-title">Direction</h3>
+                <p className="settings-section-description">
+                  Gradient flow direction
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "var(--space-2)",
+                  flexWrap: "wrap",
+                }}
+              >
+                {(
+                  [
+                    { label: "→ Right", value: "to right" },
+                    { label: "↘ Diagonal", value: "135deg" },
+                    { label: "↓ Down", value: "to bottom" },
+                    { label: "↗ Up Right", value: "to right bottom" },
+                  ] as const
+                ).map((d) => (
+                  <button
+                    key={d.value}
+                    onClick={() =>
+                      setGradientConfig((p: typeof defaultGradient) => ({
+                        ...p,
+                        direction: d.value,
+                      }))
+                    }
+                    style={{
+                      padding: "6px 14px",
+                      borderRadius: "var(--radius-pill)",
+                      border: `1px solid ${gradientConfig.direction === d.value ? "var(--brand-primary)" : "var(--border-medium)"}`,
+                      background:
+                        gradientConfig.direction === d.value
+                          ? "var(--brand-primary-pale)"
+                          : "none",
+                      color:
+                        gradientConfig.direction === d.value
+                          ? "var(--brand-primary)"
+                          : "var(--ink-secondary)",
+                      fontSize: "var(--text-xs)",
+                      cursor: "pointer",
+                      fontFamily: "var(--font-body)",
+                      transition: "all var(--transition-fast)",
+                    }}
+                  >
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Presets */}
             <div className="card settings-card">
               <div className="settings-section-header">
                 <h3 className="settings-section-title">Presets</h3>
                 <p className="settings-section-description">
-                  Quick-start color combinations
+                  Quick-start combinations
                 </p>
               </div>
               <div
@@ -1028,13 +1100,13 @@ export default function SettingsPage() {
                     name: "Forest",
                     color1: "#134e5e",
                     color2: "#71b280",
-                    color3: "#d0bce1",
+                    color3: "#a8e063",
                   },
                   {
                     name: "Midnight",
-                    color1: "#0f0c29",
-                    color2: "#302b63",
-                    color3: "#24243e",
+                    color1: "#4f46e5",
+                    color2: "#7c3aed",
+                    color3: "#a855f7",
                   },
                   {
                     name: "Rose",
@@ -1043,10 +1115,10 @@ export default function SettingsPage() {
                     color3: "#f0c27f",
                   },
                   {
-                    name: "Slate",
-                    color1: "#1c7ed6",
-                    color2: "#0a3d62",
-                    color3: "#d0bce1",
+                    name: "Neon",
+                    color1: "#00f5a0",
+                    color2: "#00d9f5",
+                    color3: "#1c7ed6",
                   },
                 ].map((preset) => (
                   <button
@@ -1060,212 +1132,33 @@ export default function SettingsPage() {
                       }))
                     }
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "var(--space-2)",
-                      padding: "var(--space-2) var(--space-3)",
+                      padding: "var(--space-2) var(--space-4)",
                       borderRadius: "var(--radius-pill)",
-                      border: "1px solid var(--border-medium)",
+                      border: "none",
                       background: `linear-gradient(135deg, ${preset.color1}, ${preset.color2}, ${preset.color3})`,
                       cursor: "pointer",
                       fontSize: "var(--text-xs)",
                       fontWeight: "var(--weight-semibold)",
                       color: "white",
                       fontFamily: "var(--font-display)",
-                      textShadow: "0 1px 2px rgba(0,0,0,0.4)",
-                      transition: "transform var(--transition-fast)",
+                      textShadow: "0 1px 2px rgba(0,0,0,0.35)",
+                      transition:
+                        "transform var(--transition-fast), box-shadow var(--transition-fast)",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                     }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.transform = "scale(1.05)")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.transform = "scale(1)")
-                    }
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.06)";
+                      e.currentTarget.style.boxShadow =
+                        "0 4px 16px rgba(0,0,0,0.25)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.boxShadow =
+                        "0 2px 8px rgba(0,0,0,0.15)";
+                    }}
                   >
                     {preset.name}
                   </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Motion controls */}
-            <div className="card settings-card">
-              <div className="settings-section-header">
-                <h3 className="settings-section-title">Motion</h3>
-                <p className="settings-section-description">
-                  Control animation and shape
-                </p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "var(--space-4)",
-                }}
-              >
-                {/* Animate toggle */}
-                <label
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--space-3)",
-                    cursor: "pointer",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={gradientConfig.animate === "on"}
-                    onChange={(e) =>
-                      setGradientConfig((p: typeof defaultGradient) => ({
-                        ...p,
-                        animate: e.target.checked ? "on" : "off",
-                      }))
-                    }
-                    style={{
-                      width: 16,
-                      height: 16,
-                      accentColor: "var(--brand-primary)",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: "var(--text-sm)",
-                      color: "var(--ink-primary)",
-                    }}
-                  >
-                    Animate
-                  </span>
-                </label>
-
-                {/* Type */}
-                <div>
-                  <label
-                    style={{
-                      fontSize: "var(--text-xs)",
-                      color: "var(--ink-muted)",
-                      display: "block",
-                      marginBottom: "var(--space-2)",
-                    }}
-                  >
-                    Shape
-                  </label>
-                  <div style={{ display: "flex", gap: "var(--space-2)" }}>
-                    {(["plane", "sphere", "waterPlane"] as const).map((t) => (
-                      <button
-                        key={t}
-                        onClick={() =>
-                          setGradientConfig((p: typeof defaultGradient) => ({
-                            ...p,
-                            type: t,
-                          }))
-                        }
-                        style={{
-                          padding: "4px 12px",
-                          borderRadius: "var(--radius-pill)",
-                          border: `1px solid ${gradientConfig.type === t ? "var(--brand-primary)" : "var(--border-medium)"}`,
-                          background:
-                            gradientConfig.type === t
-                              ? "var(--brand-primary-pale)"
-                              : "none",
-                          color:
-                            gradientConfig.type === t
-                              ? "var(--brand-primary)"
-                              : "var(--ink-secondary)",
-                          fontSize: "var(--text-xs)",
-                          cursor: "pointer",
-                          fontFamily: "var(--font-body)",
-                        }}
-                      >
-                        {t}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Sliders */}
-                {(
-                  [
-                    {
-                      key: "uSpeed",
-                      label: "Speed",
-                      min: 0,
-                      max: 2,
-                      step: 0.1,
-                    },
-                    {
-                      key: "uStrength",
-                      label: "Strength",
-                      min: 0,
-                      max: 10,
-                      step: 0.1,
-                    },
-                    {
-                      key: "uDensity",
-                      label: "Density",
-                      min: 0,
-                      max: 3,
-                      step: 0.1,
-                    },
-                    {
-                      key: "uFrequency",
-                      label: "Frequency",
-                      min: 0,
-                      max: 10,
-                      step: 0.1,
-                    },
-                    {
-                      key: "brightness",
-                      label: "Brightness",
-                      min: 0,
-                      max: 2,
-                      step: 0.1,
-                    },
-                  ] as const
-                ).map(({ key, label, min, max, step }) => (
-                  <div key={key}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "var(--space-1)",
-                      }}
-                    >
-                      <label
-                        style={{
-                          fontSize: "var(--text-xs)",
-                          color: "var(--ink-muted)",
-                        }}
-                      >
-                        {label}
-                      </label>
-                      <span
-                        style={{
-                          fontSize: "var(--text-xs)",
-                          fontFamily: "var(--font-mono)",
-                          color: "var(--ink-secondary)",
-                        }}
-                      >
-                        {gradientConfig[key]}
-                      </span>
-                    </div>
-                    <input
-                      type="range"
-                      min={min}
-                      max={max}
-                      step={step}
-                      value={gradientConfig[key]}
-                      onChange={(e) =>
-                        setGradientConfig((p: typeof defaultGradient) => ({
-                          ...p,
-                          [key]: parseFloat(e.target.value),
-                        }))
-                      }
-                      style={{
-                        width: "100%",
-                        accentColor: "var(--brand-primary)",
-                      }}
-                    />
-                  </div>
                 ))}
               </div>
             </div>
@@ -1280,7 +1173,7 @@ export default function SettingsPage() {
                   localStorage.removeItem(GRADIENT_KEY);
                 }}
               >
-                Reset to Default
+                Reset
               </button>
               <button
                 className="btn-primary"
@@ -1297,8 +1190,6 @@ export default function SettingsPage() {
                 {gradientSaved ? "✓ Saved" : "Save Gradient"}
               </button>
             </div>
-
-            {/* Live preview note */}
             <p
               style={{
                 fontSize: "var(--text-xs)",
@@ -1306,7 +1197,7 @@ export default function SettingsPage() {
                 textAlign: "center",
               }}
             >
-              Changes preview live. Click Save to persist across sessions.
+              Changes preview live above. Save to persist across sessions.
             </p>
           </div>
         );
@@ -2229,12 +2120,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Live gradient preview — shown while on gradient settings */}
-      {gradientConfig.enabled && (
-        <Suspense fallback={null}>
-          <GradientBackground config={gradientConfig} />
-        </Suspense>
-      )}
+      {/* Live gradient preview handled by GradientBrandColor in main.tsx */}
 
       {/* Global toast for avatar actions */}
       {toast && (

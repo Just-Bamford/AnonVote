@@ -3,11 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PageLoader from "./components/PageLoader";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { NotificationProvider } from "./context/NotificationContext";
-
-// Lazy load GradientBackground — Three.js is 1.1MB, only load when needed
-const GradientBackground = lazy(
-  () => import("./components/GradientBackground"),
-);
+import GradientBrandColor from "./components/GradientBackground";
 
 const GRADIENT_KEY = "anonvote-gradient";
 
@@ -65,12 +61,18 @@ export default function App() {
 
   return (
     <NotificationProvider>
-      {/* Global gradient background — lazy loaded, only when enabled */}
-      {gradientConfig?.enabled && (
-        <Suspense fallback={null}>
-          <GradientBackground config={gradientConfig} />
-        </Suspense>
-      )}
+      {/* CSS gradient brand color — no Three.js, pure CSS injection */}
+      <GradientBrandColor
+        config={
+          gradientConfig ?? {
+            enabled: false,
+            color1: "#1c7ed6",
+            color2: "#339af0",
+            color3: "#74c0fc",
+            direction: "135deg",
+          }
+        }
+      />
       <BrowserRouter>
         <Suspense fallback={<PageLoader />}>
           <Routes>

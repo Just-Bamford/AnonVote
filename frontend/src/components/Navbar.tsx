@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../context/ThemeContext";
+import { useAvatar } from "../hooks/useAvatar";
 import { useState, useRef, useEffect } from "react";
 import NotificationDropdown from "./NotificationDropdown";
 import { getTotalTokensIssued } from "../api/client";
@@ -9,6 +10,7 @@ import "./Navbar.css";
 export default function Navbar() {
   const { isAuthenticated, orgName, orgEmail, logout, loading } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { avatarUrl } = useAvatar();
   const navigate = useNavigate();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -124,16 +126,52 @@ export default function Navbar() {
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="navbar-avatar"
                 aria-label="Profile"
+                style={avatarUrl ? { padding: 0, overflow: "hidden" } : {}}
               >
-                {orgName ? orgName.charAt(0).toUpperCase() : "U"}
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt="Profile"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "50%",
+                    }}
+                  />
+                ) : orgName ? (
+                  orgName.charAt(0).toUpperCase()
+                ) : (
+                  "U"
+                )}
               </button>
 
               {/* Profile Dropdown */}
               {isProfileOpen && (
                 <div className="navbar-dropdown card">
                   <div className="profile-header">
-                    <span className="avatar-text">
-                      {orgName ? orgName.charAt(0).toUpperCase() : "U"}
+                    <span
+                      className="avatar-text"
+                      style={
+                        avatarUrl ? { padding: 0, overflow: "hidden" } : {}
+                      }
+                    >
+                      {avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt="Profile"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                          }}
+                        />
+                      ) : orgName ? (
+                        orgName.charAt(0).toUpperCase()
+                      ) : (
+                        "U"
+                      )}
                     </span>
                     <div className="profile-info">
                       <span className="profile-name">{orgName || "User"}</span>

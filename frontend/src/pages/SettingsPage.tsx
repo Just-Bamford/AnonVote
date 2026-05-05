@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../context/ThemeContext";
+import { useAvatar } from "../hooks/useAvatar";
 import {
   updateOrg,
   changePassword,
@@ -30,6 +31,10 @@ interface OrganizationDetails {
 export default function SettingsPage() {
   const { orgName, loading: authLoading } = useAuth();
   const { theme, setTheme } = useTheme();
+  const { avatarUrl, uploadAvatar, removeAvatar } = useAvatar();
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const [avatarError, setAvatarError] = useState("");
+  const [avatarSuccess, setAvatarSuccess] = useState(false);
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("profile");
   const [orgDetails, setOrgDetails] = useState<OrganizationDetails | null>(
@@ -256,24 +261,100 @@ export default function SettingsPage() {
                 </p>
               </div>
               <div className="profile-picture-section">
-                <div className="profile-avatar">
-                  {orgDetails?.name
-                    ? orgDetails.name.charAt(0).toUpperCase()
-                    : "U"}
+                {/* Avatar preview */}
+                <div
+                  className="profile-avatar"
+                  style={avatarUrl ? { padding: 0, overflow: "hidden" } : {}}
+                >
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt="Profile"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  ) : orgDetails?.name ? (
+                    orgDetails.name.charAt(0).toUpperCase()
+                  ) : (
+                    "U"
+                  )}
                 </div>
+
+                {/* Hidden file input */}
+                <input
+                  ref={avatarInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  style={{ display: "none" }}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setAvatarError("");
+                    try {
+                      await uploadAvatar(file);
+                      setAvatarSuccess(true);
+                      setTimeout(() => setAvatarSuccess(false), 2500);
+                    } catch (err: any) {
+                      setAvatarError(err.message || "Failed to upload image");
+                    }
+                    // Reset input so same file can be re-selected
+                    e.target.value = "";
+                  }}
+                />
+
                 <div className="profile-actions">
-                  <button className="btn-ghost">Upload photo</button>
-                  <span
-                    className="profile-remove"
+                  <button
+                    className="btn-ghost"
+                    style={{ minHeight: "36px", padding: "8px 16px" }}
+                    onClick={() => avatarInputRef.current?.click()}
+                  >
+                    {avatarUrl ? "Change photo" : "Upload photo"}
+                  </button>
+                  {avatarUrl && (
+                    <span
+                      className="profile-remove"
+                      style={{
+                        color: "var(--semantic-error)",
+                        fontSize: "var(--text-sm)",
+                        cursor: "pointer",
+                        fontFamily: "var(--font-body)",
+                      }}
+                      onClick={() => {
+                        removeAvatar();
+                        setAvatarSuccess(false);
+                      }}
+                    >
+                      Remove
+                    </span>
+                  )}
+                </div>
+
+                {avatarError && (
+                  <p
                     style={{
-                      color: "var(--ink-muted)",
-                      fontSize: "var(--text-sm)",
-                      cursor: "pointer",
+                      color: "var(--semantic-error)",
+                      fontSize: "var(--text-xs)",
+                      marginTop: "var(--space-2)",
                     }}
                   >
-                    Remove
-                  </span>
-                </div>
+                    {avatarError}
+                  </p>
+                )}
+                {avatarSuccess && (
+                  <p
+                    style={{
+                      color: "var(--semantic-success)",
+                      fontSize: "var(--text-xs)",
+                      marginTop: "var(--space-2)",
+                    }}
+                  >
+                    Profile picture updated
+                  </p>
+                )}
                 <p
                   className="profile-note"
                   style={{
@@ -282,7 +363,7 @@ export default function SettingsPage() {
                     marginTop: "var(--space-2)",
                   }}
                 >
-                  Supported formats: JPG, PNG. Max 2MB.
+                  Supported formats: JPG, PNG, WebP. Max 2MB.
                 </p>
               </div>
             </div>

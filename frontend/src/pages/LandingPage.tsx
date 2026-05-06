@@ -193,12 +193,12 @@ export default function LandingPage() {
         <h1
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "var(--text-hero)",
+            fontSize: "48px",
             fontWeight: "var(--weight-bold)",
             letterSpacing: "var(--tracking-tighter)",
             lineHeight: 1.1,
             color: "#ffffff",
-            maxWidth: "800px",
+            maxWidth: "1200px",
             marginBottom: "var(--space-5)",
           }}
         >
@@ -369,7 +369,7 @@ export default function LandingPage() {
           <h2
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(28px, 4vw, 44px)",
+              fontSize: "32px",
               fontWeight: "var(--weight-bold)",
               letterSpacing: "var(--tracking-tight)",
               color: "#ffffff",
@@ -498,7 +498,7 @@ export default function LandingPage() {
             <h2
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(28px, 4vw, 44px)",
+                fontSize: "32px",
                 fontWeight: "var(--weight-bold)",
                 letterSpacing: "var(--tracking-tight)",
                 color: "#ffffff",
@@ -641,7 +641,7 @@ export default function LandingPage() {
             <h2
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(28px, 4vw, 44px)",
+                fontSize: "32px",
                 fontWeight: "var(--weight-bold)",
                 letterSpacing: "var(--tracking-tight)",
                 color: "#ffffff",
@@ -741,7 +741,7 @@ export default function LandingPage() {
         <h2
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(28px, 4vw, 48px)",
+            fontSize: "32px",
             fontWeight: "var(--weight-bold)",
             letterSpacing: "var(--tracking-tight)",
             color: "#ffffff",

@@ -11,10 +11,8 @@
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  align-items: stretch;
-  /* Fixed height — fills viewport minus navbar (56px) + top padding */
-  height: calc(100vh - 56px - var(--space-8) - var(--space-6));
-  overflow: hidden;
+  align-items: flex-start;
+  min-height: calc(100vh - 120px);
 }
 
 /* ============================================================
@@ -23,9 +21,9 @@
 .settings-sidebar {
   width: 220px;
   flex-shrink: 0;
-  /* Fixed — does not scroll with content */
-  height: 100%;
-  overflow: hidden;
+  position: sticky;
+  top: var(--space-6);
+  height: fit-content;
   background: var(--surface-raised);
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
@@ -111,8 +109,7 @@
 .settings-content-area {
   flex: 1;
   min-width: 0;
-  /* Fills container height so Radix ScrollArea works correctly */
-  height: 100%;
+  padding-right: var(--space-1);
 }
 
 .settings-content {
@@ -698,15 +695,13 @@
 @media (max-width: 768px) {
   .settings-container {
     flex-direction: column;
-    height: auto;
-    min-height: calc(100vh - 56px - var(--space-8) - var(--space-6));
-    overflow: visible;
+    min-height: unset;
   }
 
   .settings-sidebar {
     width: 100%;
-    height: auto;
-    overflow: visible;
+    position: static;
+    padding: var(--space-3);
   }
 
   .settings-sidebar-list {

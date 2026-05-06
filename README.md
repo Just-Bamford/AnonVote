@@ -293,8 +293,8 @@ Stellar Testnet is used for development. Switch to Mainnet by updating `STELLAR_
 - [x] Avatar upload — profile picture with navbar sync
 - [x] Mobile responsiveness improvements
 - [x] Email notifications (Resend — ballot created + results published)
+- [x] Landing page (dark, hero + how it works + FAQ + CTA)
 - [ ] Full Soroban on-chain logic (contract written — needs deployment, see contracts/README.md)
-- [ ] Landing page
 
 </details>
 

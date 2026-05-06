@@ -3,38 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PageLoader from "./components/PageLoader";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { NotificationProvider } from "./context/NotificationContext";
-import GradientBrandColor from "./components/GradientBackground";
-
-const GRADIENT_KEY = "anonvote-gradient";
-
-function useGradientConfig() {
-  const [config, setConfig] = useState(() => {
-    try {
-      const saved = localStorage.getItem(GRADIENT_KEY);
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
-
-  useEffect(() => {
-    const handler = () => {
-      try {
-        const saved = localStorage.getItem(GRADIENT_KEY);
-        setConfig(saved ? JSON.parse(saved) : null);
-      } catch {}
-    };
-    window.addEventListener("storage", handler);
-    // Also poll every 2s to catch same-tab saves
-    const interval = setInterval(handler, 2000);
-    return () => {
-      window.removeEventListener("storage", handler);
-      clearInterval(interval);
-    };
-  }, []);
-
-  return config;
-}
 
 // Lazy-loaded pages — each chunk only downloads when the route is visited
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
@@ -50,7 +18,6 @@ const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const gradientConfig = useGradientConfig();
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2500);
@@ -61,18 +28,6 @@ export default function App() {
 
   return (
     <NotificationProvider>
-      {/* CSS gradient brand color — no Three.js, pure CSS injection */}
-      <GradientBrandColor
-        config={
-          gradientConfig ?? {
-            enabled: false,
-            color1: "#1c7ed6",
-            color2: "#339af0",
-            color3: "#74c0fc",
-            direction: "135deg",
-          }
-        }
-      />
       <BrowserRouter>
         <Suspense fallback={<PageLoader />}>
           <Routes>

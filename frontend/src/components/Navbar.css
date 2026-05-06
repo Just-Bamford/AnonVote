@@ -477,3 +477,24 @@
   color: var(--ink-muted);
   font-family: var(--font-mono);
 }
+
+/* ============================================================
+   Mobile Responsive — Navbar
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Hide TK token chip on mobile */
+  .navbar-token-chip {
+    display: none;
+  }
+
+  /* Profile dropdown — full width */
+  .navbar-dropdown {
+    position: fixed;
+    top: 56px;
+    left: var(--space-4);
+    right: var(--space-4);
+    width: auto;
+    min-width: unset;
+    max-width: unset;
+  }
+}

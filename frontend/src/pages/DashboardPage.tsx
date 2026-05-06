@@ -79,7 +79,7 @@ export default function DashboardPage() {
       <Navbar />
       <div
         style={{
-          padding: "var(--space-8)",
+          padding: "var(--space-8) 0",
           maxWidth: "1200px",
           margin: "0 auto",
           width: "100%",

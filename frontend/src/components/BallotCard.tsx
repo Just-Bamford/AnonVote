@@ -324,8 +324,8 @@ export default function BallotCard({ ballot, onBallotDeleted }: Props) {
         </div>
       )}
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-4 gap-2 mb-5">
+      {/* Stats Grid — 4 cols desktop, 2 cols mobile */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
         {[
           {
             label: "Eligible",

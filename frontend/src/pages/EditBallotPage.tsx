@@ -113,7 +113,7 @@ export default function EditBallotPage() {
           style={{
             maxWidth: "720px",
             margin: "0 auto",
-            padding: "var(--space-10) var(--space-6)",
+            padding: "var(--space-10) 0",
           }}
         >
           <div className="card p-8 text-center">
@@ -139,7 +139,7 @@ export default function EditBallotPage() {
           style={{
             maxWidth: "720px",
             margin: "0 auto",
-            padding: "var(--space-10) var(--space-6)",
+            padding: "var(--space-10) 0",
           }}
         >
           <div className="card p-8 animate-pulse h-48" />
@@ -155,7 +155,7 @@ export default function EditBallotPage() {
         style={{
           maxWidth: "720px",
           margin: "0 auto",
-          padding: "var(--space-10) var(--space-6)",
+          padding: "var(--space-10) 0",
           width: "100%",
         }}
       >

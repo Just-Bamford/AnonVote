@@ -45,7 +45,7 @@ export default function ResultsPage() {
         style={{
           maxWidth: "860px",
           margin: "0 auto",
-          padding: "var(--space-10) var(--space-6)",
+          padding: "var(--space-10) 0",
           width: "100%",
         }}
       >

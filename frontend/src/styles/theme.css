@@ -1054,13 +1054,14 @@ body {
 
 /* ============================================================
    17. RESPONSIVE BREAKPOINTS
-   Matches Apple's structural breakpoints
    ============================================================ */
-@media (max-width: 640px) {
+
+/* ── Tablet (≤ 768px) ── */
+@media (max-width: 768px) {
   :root {
-    --text-hero: 36px;
-    --text-3xl: 28px;
-    --text-2xl: 24px;
+    --text-hero: 44px;
+    --text-3xl: 32px;
+    --text-2xl: 26px;
     --text-xl: 20px;
   }
 
@@ -1068,11 +1069,83 @@ body {
     padding: 0 var(--space-4);
   }
 
+  /* Reduce page-wrapper side padding on tablet */
+  .page-wrapper {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+}
+
+/* ── Mobile (≤ 640px) ── */
+@media (max-width: 640px) {
+  :root {
+    --text-hero: 36px;
+    --text-3xl: 28px;
+    --text-2xl: 22px;
+    --text-xl: 18px;
+  }
+
+  /* Page wrapper — tight side padding on mobile */
+  .page-wrapper {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+    padding-top: var(--space-16);
+  }
+
+  /* page-content used by Login/Register */
+  .page-content {
+    padding: var(--space-4) var(--space-4);
+    align-items: flex-start;
+    padding-top: 80px;
+  }
+
+  /* Navbar */
+  .navbar {
+    padding: 0 var(--space-4);
+  }
+
+  /* Navbar — hide TK chip and network pill on very small screens */
+  .navbar-network {
+    display: none;
+  }
+
+  /* Dropdowns — full width on mobile to prevent overflow */
+  .navbar-dropdown {
+    position: fixed !important;
+    top: 56px !important;
+    left: var(--space-4) !important;
+    right: var(--space-4) !important;
+    width: auto !important;
+    min-width: unset !important;
+    max-width: unset !important;
+  }
+
+  /* Cards — reduce padding */
+  .card.p-6 {
+    padding: var(--space-4);
+  }
+  .card.p-8 {
+    padding: var(--space-5);
+  }
+
+  /* Buttons — ensure minimum 44px tap target */
+  .btn-primary,
+  .btn-ghost {
+    min-height: 44px;
+  }
+
+  /* Upload area — reduce padding */
+  .upload-area {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  /* Content center */
   .content-center {
     padding: var(--space-8) var(--space-4);
   }
 }
 
+/* ── Large desktop ── */
 @media (max-width: 1068px) {
   :root {
     --text-hero: 44px;
